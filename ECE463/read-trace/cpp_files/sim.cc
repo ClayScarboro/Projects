@@ -125,7 +125,8 @@ cacheInstance::cacheInstance(int blockSize, int size, int assoc){
     indexBits = log2(numSets);
     blockOffsetBits = log2(blockSize);
     tagBits = blockSize - indexBits - blockOffsetBits;
-    int debugAssoc, debugSets = 0;
+    int debugAssoc = 0;
+    int debugSets = 0;
 	
     for(int i = 0; i < numSets; ++i){
 	vector<int> x;
