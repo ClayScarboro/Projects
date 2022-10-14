@@ -16,23 +16,25 @@ struct {
 
 class memBlock{
 public:
-    int value;
+    int tag;
     int dirtyBit, validBit, lruVal;
     memBlock();
 };
 
 class cacheInstance {
 public:
-    int numBlocks, numSets, indexBits, blockOffsetBits, tagBits;
+    int numBlocks, numSets, indexBits, blockOffsetBits, tagBits, assoc;
     vector< vector<memBlock> > cacheStorage;
 
-    cacheInstance(int blockSize, int size, int assoc);
+    cacheInstance(int blockSize, int size, int assocSet);
 
     ~cacheInstance()= default;;
 
-    int checkCache(uint32_t addr, int assoc);
+    int checkCache(uint32_t addr);
 
-    void editCache(memBlock addr);
+    int editCache(uint32_t addr, int isDirty);
+   
+   void writeBack(int addr);
 
 };
 
