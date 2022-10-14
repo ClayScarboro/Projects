@@ -96,9 +96,9 @@ int main (int argc, char *argv[]) {
       }
     //Cache Time
 	   
-	   if(rw == "r){
+	   if(rw == 'r'){
 	      //Read Request
-	      if(!L1.checkCache(addr,params.L1_ASSOC){
+	      if(!L1.checkCache(addr,params.L1_ASSOC)){
 		//Miss, bring into cache
 		
 	      } else {
