@@ -98,7 +98,7 @@ int main (int argc, char *argv[]) {
 	   
 	   if(rw == 'r'){
 	      //Read Request
-	      if(!L1.checkCache(addr,params.L1_ASSOC)){
+	      if(!L1.checkCache(addr)){
 		//Miss, bring into cache
 		
 	      } else {
@@ -126,8 +126,8 @@ int cacheInstance::checkCache(uint32_t addr){
 
     //compare tag value @ index
     for(int i = 0; i < this->assoc; ++i){
-	if(this->cacheStorage[indexVal][i]->validBit == 0) continue;
-	if(this->cacheStorage[indexVal][i]->tag == tagVal){
+	if(this->cacheStorage[indexVal][i].validBit == 0) continue;
+	if(this->cacheStorage[indexVal][i].tag == tagVal){
 		printf("HIT! %d @ index %d way %d",tagVal,indexVal,i);
 		return i + 1;
 	}
@@ -153,43 +153,43 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 	int LRUIndex;
 	int LRUHighest = 0;
 	for(int i = 0; i < this->assoc; i++){
-		if( this->cacheStoage[indexVal][i].validBit == 1) continue;
+		if( this->cacheStorage[indexVal][i].validBit == 1) continue;
 		else{
 			
-			if(this->cacheStoage[indexVal][i].dirtyBit = 1){
+			if(this->cacheStorage[indexVal][i].dirtyBit = 1){
 			//MUST WRITEBACK!	
-			doWriteBack = cacheStoage[indexVal][i].tag;	
+			doWriteBack = cacheStorage[indexVal][i].tag;	
 			}
 			
 			//Setting New Info
 			
-			this->cacheStoage[indexVal][i].validBit = 1;
-			this->cacheStoage[indexVal][i].lruVal = 0;
-			this->cacheStoage[indexVal][i].tag = tagVal;
-			if(isDirty){ this->cacheStoage[indexVal][i].dirtyBit = 1; }
-			else{ this->cacheStoage[indexVal][i].dirtyBit = 0; }
+			this->cacheStorage[indexVal][i].validBit = 1;
+			this->cacheStorage[indexVal][i].lruVal = 0;
+			this->cacheStorage[indexVal][i].tag = tagVal;
+			if(isDirty){ this->cacheStorage[indexVal][i].dirtyBit = 1; }
+			else{ this->cacheStorage[indexVal][i].dirtyBit = 0; }
 			
 			return doWriteBack;
 		}
-		if (this->cacheStoage[indexVal][i].lruVal > LRUHighest){
+		if (this->cacheStorage[indexVal][i].lruVal > LRUHighest){
 			LRUIndex = i;
-			LRUHighest = this->cacheStoage[indexVal][i].lruVal;
+			LRUHighest = this->cacheStorage[indexVal][i].lruVal;
 		}
 	}
 	
 	//No open slot, must evict and handle LRU
-	if(this->cacheStoage[indexVal][LRUIndex].dirtyBit = 1){
+	if(this->cacheStorage[indexVal][LRUIndex].dirtyBit = 1){
 	//MUST WRITEBACK!	
-	doWriteBack = cacheStoage[indexVal][LRUIndex].tag;	
+	doWriteBack = cacheStorage[indexVal][LRUIndex].tag;	
 	}
 
 	//Setting New Info
 
-	this->cacheStoage[indexVal][LRUIndex].validBit = 1;
-	this->cacheStoage[indexVal][LRUIndex].lruVal = 0;
-	this->cacheStoage[indexVal][LRUIndex].tag = tagVal;
-	if(isDirty){ this->cacheStoage[indexVal][LRUIndex].dirtyBit = 1; }
-	else{ this->cacheStoage[indexVal][LRUIndex].dirtyBit = 0; }
+	this->cacheStorage[indexVal][LRUIndex].validBit = 1;
+	this->cacheStorage[indexVal][LRUIndex].lruVal = 0;
+	this->cacheStorage[indexVal][LRUIndex].tag = tagVal;
+	if(isDirty){ this->cacheStorage[indexVal][LRUIndex].dirtyBit = 1; }
+	else{ this->cacheStorage[indexVal][LRUIndex].dirtyBit = 0; }
 
 	return doWriteBack;
 
