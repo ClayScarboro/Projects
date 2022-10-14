@@ -113,9 +113,9 @@ int main (int argc, char *argv[]) {
 		} 
 		else {
 			//Write Request
-			rintf("debugger\n");
+			printf("debugger1\n");
 			L1.editCache(addr,1);
-			rintf("debugger2\n");
+			printf("debugger2\n");
 		}
 	}			   
 	return(0);
