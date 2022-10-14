@@ -126,7 +126,7 @@ int cacheInstance::checkCache(uint32_t addr, int assoc){
 
     //compare tag value @ index
     for(int i = 0; i < assoc; ++i){
-	if(L1.cacheStorage[indexVal][i] == tagVal){
+	if(this->cacheStorage[indexVal][i] == tagVal){
 		printf("HIT! %d @ index %d way %d",tagVal,indexVal,i);
 		return i + 1;
 	}
