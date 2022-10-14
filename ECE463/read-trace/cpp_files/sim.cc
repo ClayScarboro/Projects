@@ -114,7 +114,7 @@ int main (int argc, char *argv[]) {
 }
 
 //Returns 0 if ADDR absent from cache, returns iterator + 1 if ADDR present in cache.
-int cacheInstance::checkCache(uint32_t addr, int assoc){
+int cacheInstance::checkCache(uint32_t addr){
 
     //get index value
     int indexVal = addr >> this->blockOffsetBits;
@@ -125,8 +125,9 @@ int cacheInstance::checkCache(uint32_t addr, int assoc){
     int tagVal = addr >> (this->indexBits + this->blockOffsetBits);
 
     //compare tag value @ index
-    for(int i = 0; i < assoc; ++i){
-	if(this->cacheStorage[indexVal][i] == tagVal){
+    for(int i = 0; i < this->assoc; ++i){
+	if(this->cacheStorage[indexVal][i]->validBit == 0) continue;
+	if(this->cacheStorage[indexVal][i]->tag == tagVal){
 		printf("HIT! %d @ index %d way %d",tagVal,indexVal,i);
 		return i + 1;
 	}
@@ -136,20 +137,68 @@ int cacheInstance::checkCache(uint32_t addr, int assoc){
 
 }
 
-void cacheInstance::editCache(memBlock addr){
-    if(value == target.value){
-        // no need to write anything
-        return;
-    }
+int cacheInstance::editCache(uint32_t addr, int isDirty){
+    //get index value
+	
+	int doWriteBack = 0;
+	
+    int indexVal = addr >> this->blockOffsetBits;
+    int numIndexBits = pow(2,this->indexBits) - 1;
+    indexVal = indexVal | numIndexBits;
+	
+    //get tag value
+    int tagVal = addr >> (this->indexBits + this->blockOffsetBits);
+    
+	//finding open slot
+	int LRUIndex;
+	int LRUHighest = 0;
+	for(int i = 0; i < this->assoc; i++){
+		if( this->cacheStoage[indexVal][i].validBit == 1) continue;
+		else{
+			
+			if(this->cacheStoage[indexVal][i].dirtyBit = 1){
+			//MUST WRITEBACK!	
+			doWriteBack = cacheStoage[indexVal][i].tag;	
+			}
+			
+			//Setting New Info
+			
+			this->cacheStoage[indexVal][i].validBit = 1;
+			this->cacheStoage[indexVal][i].lruVal = 0;
+			this->cacheStoage[indexVal][i].tag = tagVal;
+			if(isDirty){ this->cacheStoage[indexVal][i].dirtyBit = 1; }
+			else{ this->cacheStoage[indexVal][i].dirtyBit = 0; }
+			
+			return doWriteBack;
+		}
+		if (this->cacheStoage[indexVal][i].lruVal > LRUHighest){
+			LRUIndex = i;
+			LRUHighest = this->cacheStoage[indexVal][i].lruVal;
+		}
+	}
+	
+	//No open slot, must evict and handle LRU
+	if(this->cacheStoage[indexVal][LRUIndex].dirtyBit = 1){
+	//MUST WRITEBACK!	
+	doWriteBack = cacheStoage[indexVal][LRUIndex].tag;	
+	}
 
-    target.value = value;
-    target.dirtyBit = 1;
+	//Setting New Info
+
+	this->cacheStoage[indexVal][LRUIndex].validBit = 1;
+	this->cacheStoage[indexVal][LRUIndex].lruVal = 0;
+	this->cacheStoage[indexVal][LRUIndex].tag = tagVal;
+	if(isDirty){ this->cacheStoage[indexVal][LRUIndex].dirtyBit = 1; }
+	else{ this->cacheStoage[indexVal][LRUIndex].dirtyBit = 0; }
+
+	return doWriteBack;
 
 }
 
-cacheInstance::cacheInstance(int blockSize, int size, int assoc){
+cacheInstance::cacheInstance(int blockSize, int size, int assocSet){
 
     //getting parameters-
+	assoc = assocSet;
     numBlocks = size / blockSize;
     numSets = size / (assoc * blockSize);
     indexBits = log2(numSets);
@@ -160,7 +209,7 @@ cacheInstance::cacheInstance(int blockSize, int size, int assoc){
 	
     for(int i = 0; i < numSets; ++i){
 	vector<memBlock> setOfMem;
-	for(int k = 0; k < assoc; k++){
+	for(int k = 0; k < this->assoc; k++){
 	     memBlock toAdd;
 	     setOfMem.push_back(toAdd);
 		++debugAssoc;
@@ -177,7 +226,7 @@ memBlock::memBlock(){
     // initiating empty memoryBlock
     validBit = 0;
     dirtyBit = 0;
-    value = 0;
+    tag = -1;
     lruVal = -1;
 }
 
