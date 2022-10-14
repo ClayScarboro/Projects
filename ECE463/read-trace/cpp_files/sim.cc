@@ -100,9 +100,9 @@ int main (int argc, char *argv[]) {
 			//Read Request
 			if(!L1.checkCache(addr)){
 				//Miss, bring into cache
-				if( 0 > L1.editCache(addr,0){
+				if( 0 > L1.editCache(addr,0)){
 					//Must Writeback to L2
-					if( 0 > L2.editCache(addr,0){
+					if( 0 > L2.editCache(addr,0)){
 						//Must Writeback to Main Mem
 					}
 				}
@@ -116,7 +116,7 @@ int main (int argc, char *argv[]) {
 			//Write Request
 			L1.editCache(addr,1);
 		}
-					   
+	}			   
 	return(0);
 }
 
