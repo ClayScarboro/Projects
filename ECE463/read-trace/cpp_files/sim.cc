@@ -61,6 +61,9 @@ int main (int argc, char *argv[]) {
    printf("PREF_M:     %u\n", params.PREF_M);
    printf("trace_file: %s\n", trace_file);
    printf("===================================\n");
+	
+	cacheInstance L1(params.BLOCKSIZE,params.L1_SIZE,params.L1_ASSOC);
+	cacheInstance L2(params.BLOCKSIZE,params.L2_SIZE,params.L2_ASSOC);
 
    // Read requests from the trace file and echo them back.
    while (fscanf(fp, "%c %x\n", &rw, &addr) == 2) {	// Stay in the loop if fscanf() successfully parsed two tokens as specified.
@@ -122,14 +125,20 @@ cacheInstance::cacheInstance(int blockSize, int size, int assoc){
     indexBits = log2(numSets);
     blockOffsetBits = log2(blockSize);
     tagBits = blockSize - indexBits - blockOffsetBits;
+    int debugAssoc, debugSets = 0;
 	
     for(int i = 0; i < numSets; ++i){
 	vector<int> x;
 	for(int k = 0; k < assoc; k++){
 	     x.push_back(0);
+		++debugAssoc;
 	}
 	cacheStorage.push_back(x);
+	    ++debugSets;
     }
+	
+    printf("made chace with %d sets %d total memblocks",debugSets,debugAssoc);	
+
 }
 
 memBlock::memBlock(){
