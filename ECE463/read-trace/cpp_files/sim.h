@@ -32,7 +32,7 @@ public:
 
     int checkCache(uint32_t addr, int assoc);
 
-    void editCache(int value,memBlock target);
+    void editCache(memBlock addr);
 
 };
 
