@@ -153,6 +153,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
     int indexVal = addr >> this->blockOffsetBits;
     int numIndexBits = pow(2,this->indexBits) - 1;
     indexVal = indexVal | numIndexBits;
+    printf("Index Val: %d\n",indexVal);
 	
     //get tag value
     int tagVal = addr >> (this->indexBits + this->blockOffsetBits);
