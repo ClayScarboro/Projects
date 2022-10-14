@@ -95,7 +95,7 @@ int main (int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 		}
 	//Cache Time
-
+	printf("debugger\n");
 		if(rw == 'r'){
 			//Read Request
 			if(!L1.checkCache(addr)){
@@ -229,7 +229,7 @@ cacheInstance::cacheInstance(int blockSize, int size, int assocSet){
 	    ++debugSets;
     }
 	
-    printf("made chace with %d sets %d total memblocks",debugSets,debugAssoc);	
+    printf("made chace with %d sets %d total memblocks\n",debugSets,debugAssoc);	
 
 }
 
