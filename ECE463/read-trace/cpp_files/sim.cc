@@ -95,7 +95,6 @@ int main (int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 		}
 	//Cache Time
-	printf("debugger\n");
 		if(rw == 'r'){
 			//Read Request
 			if(!L1.checkCache(addr)){
@@ -114,7 +113,9 @@ int main (int argc, char *argv[]) {
 		} 
 		else {
 			//Write Request
+			rintf("debugger\n");
 			L1.editCache(addr,1);
+			rintf("debugger2\n");
 		}
 	}			   
 	return(0);
