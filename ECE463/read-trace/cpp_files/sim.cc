@@ -62,8 +62,27 @@ int main (int argc, char *argv[]) {
    printf("trace_file: %s\n", trace_file);
    printf("===================================\n");
 	
-	cacheInstance L1(params.BLOCKSIZE,params.L1_SIZE,params.L1_ASSOC);
-	cacheInstance L2(params.BLOCKSIZE,params.L2_SIZE,params.L2_ASSOC);
+   cacheInstance L1(params.BLOCKSIZE,params.L1_SIZE,params.L1_ASSOC);
+   cacheInstance L2(params.BLOCKSIZE,params.L2_SIZE,params.L2_ASSOC);
+	
+   	int outa = 0;
+	int outb = 0;
+	int outc = 0;
+	int outd = 0;
+	int oute = 0;
+	int outf = 0;
+	int outg = 0;
+	int outh = 0;
+	int outi = 0;
+	int outj = 0;
+	int outk = 0;
+	int outl = 0;
+	int outm = 0;
+	int outn = 0;
+	int outo = 0;
+	int outp = 0;
+	int outq = 0;
+	
 
    // Read requests from the trace file and echo them back.
    while (fscanf(fp, "%c %x\n", &rw, &addr) == 2) {	// Stay in the loop if fscanf() successfully parsed two tokens as specified.
@@ -75,10 +94,20 @@ int main (int argc, char *argv[]) {
          printf("Error: Unknown request type %c.\n", rw);
 	 exit(EXIT_FAILURE);
       }
-
-      ///////////////////////////////////////////////////////
-      // Issue the request to the L1 cache instance here.
-      ///////////////////////////////////////////////////////
+    //Cache Time
+	   
+	   if(rw == "r){
+	      //Read Request
+	      if(!L1.checkCache(addr,params.L1_ASSOC){
+		//Miss, bring into cache
+		
+	      } else {
+	      	//Hit, read successful
+		      ++outa;
+	      }
+	   } else {
+              //Write Request
+	   }
     }
 
     return(0);
@@ -96,17 +125,18 @@ int cacheInstance::checkCache(uint32_t addr, int assoc){
     int tagVal = addr >> (this->indexBits + this->blockOffsetBits);
 
     //compare tag value @ index
-    for( int i = 0; i < assoc; i++){
-        if(1 == tagVal){
-            return i + 1;
-        }
+    for(int i = 0; i < assoc; ++i){
+	if(L1.cacheStorage[indexVal][i] == tagVal){
+		printf("HIT! %d @ index %d way %d",tagVal,indexVal,i);
+		return i + 1;
+	}
     }
-
+    printf("MISS! %d not in cache",tagVal);
     return 0;
 
 }
 
-void cacheInstance::editCache(int value,memBlock target){
+void cacheInstance::editCache(memBlock addr){
     if(value == target.value){
         // no need to write anything
         return;
@@ -129,9 +159,10 @@ cacheInstance::cacheInstance(int blockSize, int size, int assoc){
     int debugSets = 0;
 	
     for(int i = 0; i < numSets; ++i){
-	vector<int> x;
+	vector<memBlocks> x;
 	for(int k = 0; k < assoc; k++){
-	     x.push_back(0);
+	     memBlock toAdd;
+	     x.push_back(toAdd);
 		++debugAssoc;
 	}
 	cacheStorage.push_back(x);
@@ -147,6 +178,6 @@ memBlock::memBlock(){
     validBit = 0;
     dirtyBit = 0;
     value = 0;
-    lruVal = 9999;
+    lruVal = -1;
 }
 
