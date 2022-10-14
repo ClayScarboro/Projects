@@ -164,8 +164,9 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 	int LRUHighest = 0;
 	for(int i = 0; i < this->assoc; i++){
 		printf("debuggerB\n");
-		if( this->cacheStorage[indexVal][i].validBit == 1) continue;
+		if( this->cacheStorage[indexVal][i].validBit == 1){ continue;
 		printf("debuggerC\n");
+								  }
 		else{
 			
 			if(this->cacheStorage[indexVal][i].dirtyBit = 1){
