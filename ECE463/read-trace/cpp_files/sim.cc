@@ -97,27 +97,57 @@ int main (int argc, char *argv[]) {
 	//Cache Time
 		if(rw == 'r'){
 			//Read Request
+			outa++;
 			if(!L1.checkCache(addr)){
-				//Miss, bring into cache
+				//Miss, bring into L1
+				
 				if( 0 > L1.editCache(addr,0)){
 					//Must Writeback to L2
-					if( 0 > L2.editCache(addr,0)){
-						//Must Writeback to Main Mem
+					if(!L2.checkCache(addr)){
+						
+						//Miss, bring into L2
+						if( 0 > L2.editCache(addr,0)){
+							//Writing back to Main Mem
+						}
+					}
+					else {
+						//Hit, Writing...
 					}
 				}
 			} 
 			else {
 				//Hit, read successful
-				++outa;
 			}
 		} 
 		else {
 			//Write Request
-			printf("debugger1\n");
-			L1.editCache(addr,1);
-			printf("debugger2\n");
+	
+			if(!L1.checkCache(addr)){
+
+				//Miss, bring into L1
+				if( 0 > L1.editCache(addr,1)){
+					//Must Writeback to L2
+
+					if(!L2.checkCache(addr)){
+						//Miss, Bringing into L2
+						if( 0 > L2.editCache(addr,0)){
+							//Must Writeback to Main Mem
+						}
+					}
+					else {
+						//Hit, Writing to L2...	
+					}
+				}
+			}
+			else {
+				//Hit, Writing...
+				L1.editCache(addr,1);
+			}
 		}
-	}			   
+	}
+	
+	oute = outb + outd / (outa + outc);
+	
 	return(0);
 }
 
@@ -136,7 +166,7 @@ int cacheInstance::checkCache(uint32_t addr){
     for(int i = 0; i < this->assoc; ++i){
 	if(this->cacheStorage[indexVal][i].validBit == 0) continue;
 	if(this->cacheStorage[indexVal][i].tag == tagVal){
-		printf("HIT! %d @ index %d way %d",tagVal,indexVal,i);
+		printf("HIT! %d @ index %d way %d\n",tagVal,indexVal,i);
 		return i + 1;
 	}
     }
@@ -158,15 +188,15 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
     //get tag value
     int tagVal = addr >> (this->indexBits + this->blockOffsetBits);
     
-	printf("debuggerA\n");
+	
 	
 	//finding open slot
 	int LRUIndex;
 	int LRUHighest = 0;
 	for(int i = 0; i < this->assoc; i++){
-		printf("debuggerB\n");
+		
 		if( this->cacheStorage[indexVal][i].validBit == 1){ continue;
-		printf("debuggerC\n");
+		
 								  }
 		else{
 			
