@@ -127,7 +127,7 @@ int cacheInstance::checkCache(uint32_t addr){
     //get index value
     int indexVal = addr >> this->blockOffsetBits;
     int numIndexBits = pow(2,this->indexBits) - 1;
-    indexVal = indexVal | numIndexBits;
+    indexVal = indexVal & numIndexBits;
 
     //get tag value
     int tagVal = addr >> (this->indexBits + this->blockOffsetBits);
