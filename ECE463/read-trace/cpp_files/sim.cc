@@ -159,13 +159,13 @@ cacheInstance::cacheInstance(int blockSize, int size, int assoc){
     int debugSets = 0;
 	
     for(int i = 0; i < numSets; ++i){
-	vector<memBlocks> x;
+	vector<memBlock> setOfMem;
 	for(int k = 0; k < assoc; k++){
 	     memBlock toAdd;
-	     x.push_back(toAdd);
+	     setOfMem.push_back(toAdd);
 		++debugAssoc;
 	}
-	cacheStorage.push_back(x);
+	cacheStorage.push_back(setOfMem);
 	    ++debugSets;
     }
 	
