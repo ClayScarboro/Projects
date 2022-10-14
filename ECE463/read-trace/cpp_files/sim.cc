@@ -84,33 +84,40 @@ int main (int argc, char *argv[]) {
 	int outq = 0;
 	
 
-   // Read requests from the trace file and echo them back.
-   while (fscanf(fp, "%c %x\n", &rw, &addr) == 2) {	// Stay in the loop if fscanf() successfully parsed two tokens as specified.
-      if (rw == 'r')
-         printf("r %x\n", addr);
-      else if (rw == 'w')
-         printf("w %x\n", addr);
-      else {
-         printf("Error: Unknown request type %c.\n", rw);
-	 exit(EXIT_FAILURE);
-      }
-    //Cache Time
-	   
-	   if(rw == 'r'){
-	      //Read Request
-	      if(!L1.checkCache(addr)){
-		//Miss, bring into cache
-		
-	      } else {
-	      	//Hit, read successful
-		      ++outa;
-	      }
-	   } else {
-              //Write Request
-	   }
-    }
+// Read requests from the trace file and echo them back.
+	while (fscanf(fp, "%c %x\n", &rw, &addr) == 2) {	// Stay in the loop if fscanf() successfully parsed two tokens as specified.
+		if (rw == 'r')
+			printf("r %x\n", addr);
+		else if (rw == 'w')
+			printf("w %x\n", addr);
+		else {
+			printf("Error: Unknown request type %c.\n", rw);
+		exit(EXIT_FAILURE);
+		}
+	//Cache Time
 
-    return(0);
+		if(rw == 'r'){
+			//Read Request
+			if(!L1.checkCache(addr)){
+				//Miss, bring into cache
+				if( 0 > L1.editCache(addr,0){
+					//Must Writeback to L2
+					if( 0 > L2.editCache(addr,0){
+						//Must Writeback to Main Mem
+					}
+				}
+			} 
+			else {
+				//Hit, read successful
+				++outa;
+			}
+		} 
+		else {
+			//Write Request
+			L1.editCache(addr,1);
+		}
+					   
+	return(0);
 }
 
 //Returns 0 if ADDR absent from cache, returns iterator + 1 if ADDR present in cache.
@@ -169,6 +176,8 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 			if(isDirty){ this->cacheStorage[indexVal][i].dirtyBit = 1; }
 			else{ this->cacheStorage[indexVal][i].dirtyBit = 0; }
 			
+			printf("Placing tag %d in set %d assoc %d\n",tagVal,indexVal,i);
+			
 			return doWriteBack;
 		}
 		if (this->cacheStorage[indexVal][i].lruVal > LRUHighest){
@@ -190,7 +199,10 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 	this->cacheStorage[indexVal][LRUIndex].tag = tagVal;
 	if(isDirty){ this->cacheStorage[indexVal][LRUIndex].dirtyBit = 1; }
 	else{ this->cacheStorage[indexVal][LRUIndex].dirtyBit = 0; }
-
+	
+	printf("Evicting set %d assoc %d\n",indexVal,LRUIndex);
+	printf("Placing tag %d in set %d assoc %d\n",tagVal,indexVal,i);
+	
 	return doWriteBack;
 
 }
