@@ -24,7 +24,7 @@ public:
 class cacheInstance {
 public:
     int numBlocks, numSets, indexBits, blockOffsetBits, tagBits;
-    vector< vector<int> > cacheStorage;
+    vector< vector<memBlock> > cacheStorage;
 
     cacheInstance(int blockSize, int size, int assoc);
 
