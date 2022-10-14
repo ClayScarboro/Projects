@@ -122,8 +122,14 @@ cacheInstance::cacheInstance(int blockSize, int size, int assoc){
     indexBits = log2(numSets);
     blockOffsetBits = log2(blockSize);
     tagBits = blockSize - indexBits - blockOffsetBits;
-
-
+	
+    for(int i = 0; i < numSets; ++i){
+	vector<int> x;
+	for(int k = 0; k < assoc; k++){
+	     x.push_back(0);
+	}
+	cacheStorage.push_back(x);
+    }
 }
 
 memBlock::memBlock(){
