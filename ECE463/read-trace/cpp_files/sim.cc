@@ -22,7 +22,7 @@ int main (int argc, char *argv[]) {
 
     cacheInstance L1(32,256,2);
 
-    printf("WORKING!\n");
+    printf("WORKING! lets see\n");
 
     return(0);
 }
