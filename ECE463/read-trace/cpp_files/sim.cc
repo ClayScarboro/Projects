@@ -200,8 +200,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 	if(isDirty){ this->cacheStorage[indexVal][LRUIndex].dirtyBit = 1; }
 	else{ this->cacheStorage[indexVal][LRUIndex].dirtyBit = 0; }
 	
-	printf("Evicting set %d assoc %d\n",indexVal,LRUIndex);
-	printf("Placing tag %d in set %d assoc %d\n",tagVal,indexVal,i);
+	printf("Evicting set %d assoc %d and adding tag %d\n",indexVal,LRUIndex,tagVal);
 	
 	return doWriteBack;
 
