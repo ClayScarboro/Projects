@@ -148,7 +148,7 @@ int cacheInstance::checkCache(uint32_t addr){
 int cacheInstance::editCache(uint32_t addr, int isDirty){
     //get index value
 	
-	int doWriteBack = 0;
+    int doWriteBack = 0;
 	
     int indexVal = addr >> this->blockOffsetBits;
     int numIndexBits = pow(2,this->indexBits) - 1;
@@ -157,11 +157,15 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
     //get tag value
     int tagVal = addr >> (this->indexBits + this->blockOffsetBits);
     
+	printf("debuggerA\n");
+	
 	//finding open slot
 	int LRUIndex;
 	int LRUHighest = 0;
 	for(int i = 0; i < this->assoc; i++){
+		printf("debuggerB\n");
 		if( this->cacheStorage[indexVal][i].validBit == 1) continue;
+		printf("debuggerC\n");
 		else{
 			
 			if(this->cacheStorage[indexVal][i].dirtyBit = 1){
