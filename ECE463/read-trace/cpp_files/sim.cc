@@ -63,7 +63,9 @@ int main (int argc, char *argv[]) {
    printf("===================================\n");
 	
    cacheInstance L1(params.BLOCKSIZE,params.L1_SIZE,params.L1_ASSOC);
-   cacheInstance L2(params.BLOCKSIZE,params.L2_SIZE,params.L2_ASSOC);
+   if(params.L2_SIZE > 0){
+   	cacheInstance L2(params.BLOCKSIZE,params.L2_SIZE,params.L2_ASSOC);
+   }
 	
    	int outa = 0;
 	int outb = 0;
@@ -106,7 +108,7 @@ int main (int argc, char *argv[]) {
 				//Not in L1, check L2
 				++outb;
 				++outh;
-				if(!L2.checkCache(addr)){
+				if(params.L2_SIZE > 0 && !L2.checkCache(addr)){
 					++outq;
 					//Miss, bring into L2 from Main Mem and then L1 from L2
 					++outi;
@@ -126,7 +128,7 @@ int main (int argc, char *argv[]) {
 						L1.editCache(dirtyAddr,1);
 					}
 				}
-				else {
+				else if(params.L2_SIZE > 0) {
 					//Found in L2, Bring into L1
 					dirtyAddr = L1.editCache(addr,0);
 					if( 0 > dirtyAddr){
@@ -148,7 +150,7 @@ int main (int argc, char *argv[]) {
 				++outd;
 				//Not in L1, check L2 to pull in
 				++outh;
-				if(!L2.checkCache(addr)){
+				if(params.L2_SIZE > 0 && !L2.checkCache(addr)){
 					++outm;
 					++outq;
 					//Not in L2, bring into MM
@@ -169,7 +171,7 @@ int main (int argc, char *argv[]) {
 						L2.editCache(dirtyAddr,1);
 					}
 				}
-				else {
+				else if(params.L2_SIZE > 0){
 					//Found in L2, Bring into L1
 					dirtyAddr = L1.editCache(addr,1);
 					if( 0 > dirtyAddr){
