@@ -99,19 +99,23 @@ int main (int argc, char *argv[]) {
 			//Read Request
 			outa++;
 			if(!L1.checkCache(addr)){
-				//Miss, bring into L1
-				
-				if( 0 > L1.editCache(addr,0)){
-					//Must Writeback to L2
-					if(!L2.checkCache(addr)){
-						
-						//Miss, bring into L2
-						if( 0 > L2.editCache(addr,0)){
-							//Writing back to Main Mem
-						}
+				//Not in L1, check L2
+				if(!L2.checkCache(addr)){	
+					//Miss, bring into L2 from Main Mem
+					if( 0 > L2.editCache(addr,0)){
+						//Writing back to Main Mem
+					}
+					else{
+						//No Writeback	
+					}
+				}
+				else {
+					//Found in L2, Bring into L1
+					if( 0 > L1.editCache(addr,0)){
+						//Must Writeback to L2
 					}
 					else {
-						//Hit, Writing...
+						//No Writeback
 					}
 				}
 			} 
@@ -121,30 +125,47 @@ int main (int argc, char *argv[]) {
 		} 
 		else {
 			//Write Request
-	
 			if(!L1.checkCache(addr)){
-
-				//Miss, bring into L1
-				if( 0 > L1.editCache(addr,1)){
-					//Must Writeback to L2
-
-					if(!L2.checkCache(addr)){
-						//Miss, Bringing into L2
-						if( 0 > L2.editCache(addr,0)){
-							//Must Writeback to Main Mem
-						}
+				//Not in L1, check L2 to pull in
+				if(!L2.checkCache(addr)){	
+					//Not in L2, bring into 
+					if( 0 > L2.editCache(addr,0)){
+						//Writing back to Main Mem
+					}
+					else{
+						//No Writeback	
+					}
+					
+					//Now in L2, Write to L1
+					if( 0 > L1.editCache(addr,0)){
+						//Must Writeback to L2
 					}
 					else {
-						//Hit, Writing to L2...	
+						//No Writeback
 					}
 				}
-			}
+				else {
+					//Found in L2, Bring into L1
+					if( 0 > L1.editCache(addr,0)){
+						//Must Writeback to L2
+					}
+					else {
+						//No Writeback
+					}
+				}
+			} 
 			else {
-				//Hit, Writing...
-				L1.editCache(addr,1);
+				//Hit, Writing
+				if( 0 > L1.editCache(addr,0)){
+					//Must Writeback to L2
+				}
+				else {
+					//No Writeback
+				}
 			}
 		}
 	}
+	//DONE SIMULATING CHACE! COLLECT OUTPUTS!
 	
 	oute = outb + outd / (outa + outc);
 	
