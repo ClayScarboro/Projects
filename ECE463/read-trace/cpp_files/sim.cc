@@ -247,7 +247,7 @@ int cacheInstance::checkCache(uint32_t addr){
     indexVal = indexVal & numIndexBits;
 
     //get tag value
-    int tagVal = addr >> (this->indexBits + this->blockOffsetBits);
+    uint32_t tagVal = addr >> (this->indexBits + this->blockOffsetBits);
 
     //compare tag value @ index
     for(int i = 0; i < this->assoc; ++i){
@@ -273,7 +273,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
    // printf("Index Val: %d\n",indexVal);
 	
     //get tag value
-    int tagVal = addr >> (this->indexBits + this->blockOffsetBits);
+    uint32_t tagVal = addr >> (this->indexBits + this->blockOffsetBits);
     
 	
 	
