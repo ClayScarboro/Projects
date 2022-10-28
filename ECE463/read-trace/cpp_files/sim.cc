@@ -63,9 +63,8 @@ int main (int argc, char *argv[]) {
    printf("===================================\n");
 	
    cacheInstance L1(params.BLOCKSIZE,params.L1_SIZE,params.L1_ASSOC);
-   if(params.L2_SIZE > 0){
-   	cacheInstance L2(params.BLOCKSIZE,params.L2_SIZE,params.L2_ASSOC);
-   }
+   cacheInstance L2(params.BLOCKSIZE,params.L2_SIZE,params.L2_ASSOC);
+  
 	
    	int outa = 0;
 	int outb = 0;
@@ -108,7 +107,7 @@ int main (int argc, char *argv[]) {
 				//Not in L1, check L2
 				++outb;
 				++outh;
-				if(params.L2_SIZE > 0 && !L2.checkCache(addr)){
+				if(!L2.checkCache(addr)){
 					++outq;
 					//Miss, bring into L2 from Main Mem and then L1 from L2
 					++outi;
@@ -128,7 +127,7 @@ int main (int argc, char *argv[]) {
 						L1.editCache(dirtyAddr,1);
 					}
 				}
-				else if(params.L2_SIZE > 0) {
+				else {
 					//Found in L2, Bring into L1
 					dirtyAddr = L1.editCache(addr,0);
 					if( 0 > dirtyAddr){
@@ -150,7 +149,7 @@ int main (int argc, char *argv[]) {
 				++outd;
 				//Not in L1, check L2 to pull in
 				++outh;
-				if(params.L2_SIZE > 0 && !L2.checkCache(addr)){
+				if(!L2.checkCache(addr)){
 					++outm;
 					++outq;
 					//Not in L2, bring into MM
@@ -171,7 +170,7 @@ int main (int argc, char *argv[]) {
 						L2.editCache(dirtyAddr,1);
 					}
 				}
-				else if(params.L2_SIZE > 0){
+				else {
 					//Found in L2, Bring into L1
 					dirtyAddr = L1.editCache(addr,1);
 					if( 0 > dirtyAddr){
@@ -372,28 +371,29 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 cacheInstance::cacheInstance(int blockSize, int size, int assocSet){
 
     //getting parameters-
-	assoc = assocSet;
-    numBlocks = size / blockSize;
-    numSets = size / (assoc * blockSize);
-    indexBits = log2(numSets);
-    blockOffsetBits = log2(blockSize);
-    tagBits = blockSize - indexBits - blockOffsetBits;
-    int debugAssoc = 0;
-    int debugSets = 0;
-	
-    for(int i = 0; i < numSets; ++i){
-	vector<memBlock> setOfMem;
-	for(int k = 0; k < this->assoc; k++){
-	     memBlock toAdd;
-	     setOfMem.push_back(toAdd);
-		++debugAssoc;
-	}
-	cacheStorage.push_back(setOfMem);
-	    ++debugSets;
-    }
-	
-    printf("made chace with %d sets %d assoc\n",debugSets,debugAssoc);	
+    if(size != 0){
+	    assoc = assocSet;
+	    numBlocks = size / blockSize;
+	    numSets = size / (assoc * blockSize);
+	    indexBits = log2(numSets);
+	    blockOffsetBits = log2(blockSize);
+	    tagBits = blockSize - indexBits - blockOffsetBits;
+	    int debugAssoc = 0;
+	    int debugSets = 0;
 
+	    for(int i = 0; i < numSets; ++i){
+		vector<memBlock> setOfMem;
+		for(int k = 0; k < this->assoc; k++){
+		     memBlock toAdd;
+		     setOfMem.push_back(toAdd);
+			++debugAssoc;
+		}
+		cacheStorage.push_back(setOfMem);
+		    ++debugSets;
+	    }
+
+	    printf("made chace with %d sets %d assoc\n",debugSets,debugAssoc);	
+    }	
 }
 
 memBlock::memBlock(){
