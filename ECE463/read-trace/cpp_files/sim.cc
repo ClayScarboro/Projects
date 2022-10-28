@@ -192,24 +192,25 @@ int main (int argc, char *argv[]) {
 	oute = outb + outd / (outa + outc);
 	outn = outi/outh;
 	
-	
-	printf("%d L1 reads\n",outa);
-	printf("%d L1 reads misses\n",outb);
-	printf("%d L1 writes\n",outc);
-	printf("%d L1 write misses\n",outd);
-	printf("%d L1 miss rate\n",oute);
-	printf("%d L1 writebacks\n",outf);
-	printf("%d L1 prefetches\n",outg);
-	printf("%d L2 reads\n",outh);
-	printf("%d L2 read misses\n",outi);
-	printf("%d L2 prefetch reads\n",outj);
-	printf("%d L2 prefetch read misses\n",outk);
-	printf("%d L2 writes\n",outl);
-	printf("%d L2 write misses\n",outm);
-	printf("%d L2 miss rate\n",outn);
-	printf("%d L2 writebacks\n",outo);
-	printf("%d L2 prefetches\n",outp);
-	printf("%d total mem traffic\n",outq);
+	printf("===== Measurements =====\n");
+  	printf("L1 reads:  %u\n", outa);
+	printf("L1 read misses:  %u\n", outb);
+	printf("L1 writes:  %u\n", outc);
+	printf("L1 write misses:  %u\n", outd);
+	printf("L1 miss rate:  %u\n", oute);
+	printf("L1 writebacks:  %u\n", outf);
+	printf("L1 prefetches:  %u\n", outg);
+	printf("L1 reads (demand):  %u\n", outh);
+	printf("L1 reads misses (demand):  %u\n", outi);
+	printf("L1 reads (prefetch):  %u\n", outj);
+	printf("L1 read misses (prefetch):  %u\n", outk);
+	printf("L2 writes:  %u\n", outl);
+	printf("L2 write misses:  %u\n", outm);
+	printf("L2 miss rate:  %u\n", outn);
+	printf("L2 writebacks:  %u\n", outo);
+	printf("L2 prefetches:  %u\n", outp);
+	printf("memory traffic:  %u\n", outq);
+	printf("===================================\n");
 	
 	return(0);
 }
@@ -229,11 +230,11 @@ int cacheInstance::checkCache(uint32_t addr){
     for(int i = 0; i < this->assoc; ++i){
 	if(this->cacheStorage[indexVal][i].validBit == 0) continue;
 	if(this->cacheStorage[indexVal][i].tag == tagVal){
-		printf("HIT! %d @ index %d way %d\n",tagVal,indexVal,i);
+		//printf("HIT! %d @ index %d way %d\n",tagVal,indexVal,i);
 		return i + 1;
 	}
     }
-    printf("MISS! %d not in cache",tagVal);
+    //printf("MISS! %d not in cache",tagVal);
     return 0;
 
 }
@@ -246,7 +247,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
     int indexVal = addr >> this->blockOffsetBits;
     int numIndexBits = pow(2,this->indexBits) - 1;
     indexVal = indexVal & numIndexBits;
-    printf("Index Val: %d\n",indexVal);
+   // printf("Index Val: %d\n",indexVal);
 	
     //get tag value
     int tagVal = addr >> (this->indexBits + this->blockOffsetBits);
@@ -276,7 +277,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 			if(isDirty){ this->cacheStorage[indexVal][i].dirtyBit = 1; }
 			else{ this->cacheStorage[indexVal][i].dirtyBit = 0; }
 			
-			printf("Placing tag %d in set %d assoc %d\n",tagVal,indexVal,i);
+			//printf("Placing tag %d in set %d assoc %d\n",tagVal,indexVal,i);
 			
 			return doWriteBack;
 		}
@@ -300,7 +301,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 	if(isDirty){ this->cacheStorage[indexVal][LRUIndex].dirtyBit = 1; }
 	else{ this->cacheStorage[indexVal][LRUIndex].dirtyBit = 0; }
 	
-	printf("Evicting set %d assoc %d and adding tag %d\n",indexVal,LRUIndex,tagVal);
+	//printf("Evicting set %d assoc %d and adding tag %d\n",indexVal,LRUIndex,tagVal);
 	
 	return doWriteBack;
 
@@ -329,7 +330,7 @@ cacheInstance::cacheInstance(int blockSize, int size, int assocSet){
 	    ++debugSets;
     }
 	
-    printf("made chace with %d sets %d total memblocks\n",debugSets,debugAssoc);	
+    //printf("made chace with %d sets %d total memblocks\n",debugSets,debugAssoc);	
 
 }
 
