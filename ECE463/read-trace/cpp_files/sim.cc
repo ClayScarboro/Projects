@@ -257,7 +257,7 @@ int cacheInstance::checkCache(uint32_t addr){
 		
 		//Increment all LRU by 1
 		for(int b = 0; b < this->assoc; b++){
-			if(this->cacheStorage[indexVal][b.dirtyBit == 1){
+			if(this->cacheStorage[indexVal][b].dirtyBit == 1){
 				this->cacheStorage[indexVal][b].lruVal++;	
 			}
 		}
@@ -317,7 +317,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 			
 			//Increment all LRU by 1
 		for(int b = 0; b < this->assoc; b++){
-			if(this->cacheStorage[indexVal][b.dirtyBit == 1){
+			if(this->cacheStorage[indexVal][b].dirtyBit == 1){
 				this->cacheStorage[indexVal][b].lruVal++;	
 			}
 		}
@@ -348,7 +348,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 	
 	//Increment all LRU by 1
 		for(int b = 0; b < this->assoc; b++){
-			if(this->cacheStorage[indexVal][b.dirtyBit == 1){
+			if(this->cacheStorage[indexVal][b].dirtyBit == 1){
 				this->cacheStorage[indexVal][b].lruVal++;	
 			}
 		}
