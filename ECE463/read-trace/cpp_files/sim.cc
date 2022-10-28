@@ -264,7 +264,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 								  }
 		else{
 			
-			if(this->cacheStorage[indexVal][i].dirtyBit = 1){
+			if(this->cacheStorage[indexVal][i].dirtyBit == 1){
 			//MUST WRITEBACK!	
 			doWriteBack = cacheStorage[indexVal][i].tag;	
 			}
