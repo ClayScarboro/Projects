@@ -245,8 +245,8 @@ int main (int argc, char *argv[]) {
 
 	//DONE SIMULATING CHACE! COLLECT OUTPUTS!
 	
-	oute = outb + outd / (outa + outc);
-	outn = outi / outh;
+	oute = (float)outb + (float)outd / ((float)outa + (float)outc);
+	outn = (float)outi / (float)outh;
 	
 	//PRINTING STATS
 	printf("===== L1 contents =====\n");
