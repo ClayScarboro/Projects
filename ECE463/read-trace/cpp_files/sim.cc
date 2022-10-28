@@ -221,8 +221,9 @@ int main (int argc, char *argv[]) {
 				//Write Request
 				++outc;
 				if(!L1.checkCache(addr)){
+					//not in L1, bring in form mem
 					++outd;
-					dirtyAddr = L1.editCache(addr,1);
+					dirtyAddr = L1.editCache(addr,0);
 						if( 0 > dirtyAddr){
 							//Must L1 Writeback to MM
 							++outf;
@@ -233,7 +234,7 @@ int main (int argc, char *argv[]) {
 					//Hit, Writing
 					dirtyAddr = L1.editCache(addr,1);
 						if( 0 > dirtyAddr){
-							//Must L2 Writeback to MM
+							//Must L1 Writeback to MM
 							++outf;
 							++outq;
 					}
@@ -277,23 +278,23 @@ int main (int argc, char *argv[]) {
 	}
 	
 	printf("===== Measurements =====\n");
-  	printf("L1 reads:  %u\n", outa);
-	printf("L1 read misses:  %u\n", outb);
-	printf("L1 writes:  %u\n", outc);
-	printf("L1 write misses:  %u\n", outd);
-	printf("L1 miss rate:  %f\n", oute);
-	printf("L1 writebacks:  %u\n", outf);
-	printf("L1 prefetches:  %u\n", outg);
-	printf("L1 reads (demand):  %u\n", outh);
-	printf("L1 reads misses (demand):  %u\n", outi);
-	printf("L1 reads (prefetch):  %u\n", outj);
-	printf("L1 read misses (prefetch):  %u\n", outk);
-	printf("L2 writes:  %u\n", outl);
-	printf("L2 write misses:  %u\n", outm);
-	printf("L2 miss rate:  %f\n", outn);
-	printf("L2 writebacks:  %u\n", outo);
-	printf("L2 prefetches:  %u\n", outp);
-	printf("memory traffic:  %u\n", outq);
+  	printf("a. L1 reads:  %u\n", outa);
+	printf("b. L1 read misses:  %u\n", outb);
+	printf("c. L1 writes:  %u\n", outc);
+	printf("d. L1 write misses:  %u\n", outd);
+	printf("e. L1 miss rate:  %f\n", oute);
+	printf("f. L1 writebacks:  %u\n", outf);
+	printf("g. L1 prefetches:  %u\n", outg);
+	printf("h. L1 reads (demand):  %u\n", outh);
+	printf("i. L1 reads misses (demand):  %u\n", outi);
+	printf("j. L1 reads (prefetch):  %u\n", outj);
+	printf("k. L1 read misses (prefetch):  %u\n", outk);
+	printf("l. L2 writes:  %u\n", outl);
+	printf("m. L2 write misses:  %u\n", outm);
+	printf("n. L2 miss rate:  %f\n", outn);
+	printf("o. L2 writebacks:  %u\n", outo);
+	printf("p. L2 prefetches:  %u\n", outp);
+	printf("q. memory traffic:  %u\n", outq);
 	printf("===================================\n");
 	
 	return(0);
