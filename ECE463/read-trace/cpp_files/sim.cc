@@ -348,7 +348,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 	
 	
 	//finding open slot
-	int LRUIndex;
+	int LRUIndex = 0;
 	int LRUHighest = 0;
 	for(int i = 0; i < this->assoc; i++){
 		
