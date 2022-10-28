@@ -108,7 +108,7 @@ int main (int argc, char *argv[]) {
 				++outh;
 				if(!L2.checkCache(addr)){
 					++outq;
-					//Miss, bring into L2 from Main Mem
+					//Miss, bring into L2 from Main Mem and then L1 from L2
 					++outi;
 					dirtyAddr = L2.editCache(addr,0);
 					if( 0 > dirtyAddr){
@@ -116,6 +116,14 @@ int main (int argc, char *argv[]) {
 						++outo;
 						++outq;
 						L2.editCache(dirtyAddr,1);
+					}
+					
+					dirtyAddr = L1.editCache(addr,0);
+					if( 0 > dirtyAddr){
+						//Must L2 Writeback to MM
+						++outo;
+						++outq;
+						L1.editCache(dirtyAddr,1);
 					}
 				}
 				else {
@@ -143,7 +151,7 @@ int main (int argc, char *argv[]) {
 				if(!L2.checkCache(addr)){
 					++outm;
 					++outq;
-					//Not in L2, bring into 
+					//Not in L2, bring into MM
 					dirtyAddr = L2.editCache(addr,0);
 					if( 0 > dirtyAddr){
 						//Must L2 Writeback to MM
