@@ -192,6 +192,25 @@ int main (int argc, char *argv[]) {
 	oute = outb + outd / (outa + outc);
 	outn = outi/outh;
 	
+	
+	printf("%d L1 reads\n",outa);
+	printf("%d L1 reads misses\n",outb);
+	printf("%d L1 writes\n",outc);
+	printf("%d L1 write misses\n",outd);
+	printf("%d L1 miss rate\n",oute);
+	printf("%d L1 writebacks\n",outf);
+	printf("%d L1 prefetches\n",outg);
+	printf("%d L2 reads\n",outh);
+	printf("%d L2 read misses\n",outi);
+	printf("%d L2 prefetch reads\n",outj);
+	printf("%d L2 prefetch read misses\n",outk);
+	printf("%d L2 writes\n",outl);
+	printf("%d L2 write misses\n",outm);
+	printf("%d L2 miss rate\n",outn);
+	printf("%d L2 writebacks\n",outo);
+	printf("%d L2 prefetches\n",outp);
+	printf("%d total mem traffic\n",outq);
+	
 	return(0);
 }
 
