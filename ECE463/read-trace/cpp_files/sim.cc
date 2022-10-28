@@ -70,7 +70,7 @@ int main (int argc, char *argv[]) {
 	int outb = 0;
 	int outc = 0;
 	int outd = 0;
-	int oute = 0;
+	float oute = 0;
 	int outf = 0;
 	int outg = 0;
 	int outh = 0;
@@ -79,7 +79,7 @@ int main (int argc, char *argv[]) {
 	int outk = 0;
 	int outl = 0;
 	int outm = 0;
-	int outn = 0;
+	float outn = 0;
 	int outo = 0;
 	int outp = 0;
 	int outq = 0;
@@ -99,6 +99,9 @@ int main (int argc, char *argv[]) {
 		}
 	//Cache Time
 	uint32_t dirtyAddr;
+		
+//---------------------------------------------------- HAS L2 CACHE ------------------------------------------------------------------------ 
+		
 		if(params.L2_SIZE > 0){
 			if(rw == 'r'){
 				//Read Request
@@ -192,7 +195,10 @@ int main (int argc, char *argv[]) {
 					}
 				}
 			}
-		} else {
+			
+//---------------------------------------------------- NO L2 CACHE ------------------------------------------------------------------------ 
+			
+		} else { 
 			if(rw == 'r'){
 				//Read Request
 				++outa;
@@ -203,7 +209,7 @@ int main (int argc, char *argv[]) {
 					dirtyAddr = L1.editCache(addr,0);
 						if( 0 > dirtyAddr){
 							//Must L1 Writeback to MM
-							++outo;
+							++outf;
 							++outq;
 					}
 				} 
@@ -216,12 +222,10 @@ int main (int argc, char *argv[]) {
 				++outc;
 				if(!L1.checkCache(addr)){
 					++outd;
-					//Not in L1, move from mem
-					++outh;
 					dirtyAddr = L1.editCache(addr,1);
 						if( 0 > dirtyAddr){
 							//Must L1 Writeback to MM
-							++outo;
+							++outf;
 							++outq;
 					}
 				} 
@@ -230,7 +234,7 @@ int main (int argc, char *argv[]) {
 					dirtyAddr = L1.editCache(addr,1);
 						if( 0 > dirtyAddr){
 							//Must L2 Writeback to MM
-							++outo;
+							++outf;
 							++outq;
 					}
 				}
@@ -243,6 +247,7 @@ int main (int argc, char *argv[]) {
 	oute = outb + outd / (outa + outc);
 	outn = outi / outh;
 	
+	//PRINTING STATS
 	printf("===== L1 contents =====\n");
 	for(int i = 0; i < L1.numSets; i++){
 		printf("set	%d:", i);
@@ -256,17 +261,19 @@ int main (int argc, char *argv[]) {
 		printf("\n");
 	}
 	
-	printf("===== L2 contents =====\n");
-	for(int i = 0; i < L2.numSets; i++){
-		printf("set	%d:", i);
-		for(int k = 0; k < L2.assoc; k++){
-			printf("	%x:", L2.cacheStorage[i][k].tag);
-			if(L2.cacheStorage[i][k].dirtyBit == 1){
-				printf(" D");	
+	if(params.L2_SIZE > 0){
+		printf("===== L2 contents =====\n");
+		for(int i = 0; i < L2.numSets; i++){
+			printf("set	%d:", i);
+			for(int k = 0; k < L2.assoc; k++){
+				printf("	%x:", L2.cacheStorage[i][k].tag);
+				if(L2.cacheStorage[i][k].dirtyBit == 1){
+					printf(" D");	
+				}
+				else printf("  ");
 			}
-			else printf("  ");
+			printf("\n");
 		}
-		printf("\n");
 	}
 	
 	printf("===== Measurements =====\n");
@@ -274,7 +281,7 @@ int main (int argc, char *argv[]) {
 	printf("L1 read misses:  %u\n", outb);
 	printf("L1 writes:  %u\n", outc);
 	printf("L1 write misses:  %u\n", outd);
-	printf("L1 miss rate:  %u\n", oute);
+	printf("L1 miss rate:  %f\n", oute);
 	printf("L1 writebacks:  %u\n", outf);
 	printf("L1 prefetches:  %u\n", outg);
 	printf("L1 reads (demand):  %u\n", outh);
@@ -283,7 +290,7 @@ int main (int argc, char *argv[]) {
 	printf("L1 read misses (prefetch):  %u\n", outk);
 	printf("L2 writes:  %u\n", outl);
 	printf("L2 write misses:  %u\n", outm);
-	printf("L2 miss rate:  %u\n", outn);
+	printf("L2 miss rate:  %f\n", outn);
 	printf("L2 writebacks:  %u\n", outo);
 	printf("L2 prefetches:  %u\n", outp);
 	printf("memory traffic:  %u\n", outq);
