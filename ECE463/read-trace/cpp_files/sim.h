@@ -16,7 +16,7 @@ struct {
 
 class memBlock{
 public:
-    int tag;
+    uint32_t tag;
     int dirtyBit, validBit, lruVal;
     memBlock();
 };
