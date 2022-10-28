@@ -256,9 +256,9 @@ int cacheInstance::checkCache(uint32_t addr){
 		//printf("HIT! %d @ index %d way %d\n",tagVal,indexVal,i);
 		
 		//Increment all LRU by 1
-		for(int i = 0; i < this->assoc; i++){
-			if(this->cacheStorage[indexVal][i].dirtyBit == 1){
-				this->cacheStorage[indexVal][i].lruVal++;	
+		for(int b = 0; b < this->assoc; b++){
+			if(this->cacheStorage[indexVal][b.dirtyBit == 1){
+				this->cacheStorage[indexVal][b].lruVal++;	
 			}
 		}
 		
@@ -316,11 +316,11 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 			}
 			
 			//Increment all LRU by 1
-			for(int i = 0; i < this->assoc; i++){
-				if(this->cacheStorage[indexVal][i].dirtyBit == 1){
-					this->cacheStorage[indexVal][i].lruVal++;	
-				}
+		for(int b = 0; b < this->assoc; b++){
+			if(this->cacheStorage[indexVal][b.dirtyBit == 1){
+				this->cacheStorage[indexVal][b].lruVal++;	
 			}
+		}
 			
 			//printf("Placing tag %d in set %d assoc %d\n",tagVal,indexVal,i);
 		
@@ -347,11 +347,11 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 	else{ this->cacheStorage[indexVal][LRUIndex].dirtyBit = 0; }
 	
 	//Increment all LRU by 1
-	for(int i = 0; i < this->assoc; i++){
-		if(this->cacheStorage[indexVal][i].dirtyBit == 1){
-			this->cacheStorage[indexVal][i].lruVal++;	
+		for(int b = 0; b < this->assoc; b++){
+			if(this->cacheStorage[indexVal][b.dirtyBit == 1){
+				this->cacheStorage[indexVal][b].lruVal++;	
+			}
 		}
-	}
 	
 	//printf("Evicting set %d assoc %d and adding tag %d\n",indexVal,LRUIndex,tagVal);
 	
