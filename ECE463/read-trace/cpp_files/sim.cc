@@ -265,7 +265,7 @@ int cacheInstance::checkCache(uint32_t addr){
 		return i + 1;
 	}
     }
-    printf("MISS! %x not in cache",tagVal);
+    printf("MISS! %x not in cache\n",tagVal);
     return 0;
 
 }
@@ -278,7 +278,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
     int indexVal = addr >> this->blockOffsetBits;
     int numIndexBits = pow(2,this->indexBits) - 1;
     indexVal = indexVal & numIndexBits;
-    printf("Index Val: %d\n",indexVal);
+    printf("Index Val: %d\n",indexVal); 
 	
     //get tag value
     uint32_t tagVal = addr >> (this->indexBits + this->blockOffsetBits);
@@ -382,7 +382,7 @@ cacheInstance::cacheInstance(int blockSize, int size, int assocSet){
 	    ++debugSets;
     }
 	
-    //printf("made chace with %d sets %d total memblocks\n",debugSets,debugAssoc);	
+    printf("made chace with %d sets %d assoc\n",debugSets,debugAssoc);	
 
 }
 
