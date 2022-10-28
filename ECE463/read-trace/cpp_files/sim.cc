@@ -195,8 +195,20 @@ int main (int argc, char *argv[]) {
 	for(int i = 0; i < L1.numSets; i++){
 		printf("set	%d:", i);
 		for(int k = 0; i < L1.assoc; i++){
-			printf("	%d:", L1->cacheStorage[i][k].tag);
-			if(L1->cacheStorage[i][k].validBit == 1){
+			printf("	%d:", L1.cacheStorage[i][k].tag);
+			if(L1.cacheStorage[i][k].validBit == 1){
+				printf(" D");	
+			}
+			else printf("  ");
+		}
+		printf("\n");
+	}
+	
+	for(int i = 0; i < L2.numSets; i++){
+		printf("set	%d:", i);
+		for(int k = 0; i < L2.assoc; i++){
+			printf("	%d:", L2.cacheStorage[i][k].tag);
+			if(L2.cacheStorage[i][k].validBit == 1){
 				printf(" D");	
 			}
 			else printf("  ");
