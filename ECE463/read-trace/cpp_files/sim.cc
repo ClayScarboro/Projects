@@ -197,7 +197,7 @@ int main (int argc, char *argv[]) {
 			if(L1.cacheStorage[i][k].dirtyBit == 1){
 				printf(" D");	
 			}
-			else printf("  ");
+			else printf("	");
 		}
 		printf("\n");
 	}
@@ -254,6 +254,14 @@ int cacheInstance::checkCache(uint32_t addr){
 	if(this->cacheStorage[indexVal][i].validBit == 0) continue;
 	if(this->cacheStorage[indexVal][i].tag == tagVal){
 		//printf("HIT! %d @ index %d way %d\n",tagVal,indexVal,i);
+		
+		//Increment all LRU by 1
+		for(int i = 0; i < this->assoc; i++){
+			if(this->cacheStorage[indexVal][i].dirtyBit == 1){
+				this->cacheStorage[indexVal][i].lruVal++;	
+			}
+		}
+		
 		return i + 1;
 	}
     }
@@ -282,14 +290,17 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 	int LRUHighest = 0;
 	for(int i = 0; i < this->assoc; i++){
 		
-		if( this->cacheStorage[indexVal][i].validBit == 1){ continue;
+		//Going untill we find empty memblock
+		if( this->cacheStorage[indexVal][i].validBit == 1){ 
+			continue;
+		}
 		
-								  }
+		//found empty, place and increment ALL LRU by 1
 		else{
 			
 			if(this->cacheStorage[indexVal][i].dirtyBit == 1){
-			//MUST WRITEBACK!	
-			doWriteBack = cacheStorage[indexVal][i].tag;	
+				//MUST WRITEBACK!	
+				doWriteBack = cacheStorage[indexVal][i].tag;	
 			}
 			
 			//Setting New Info
@@ -297,11 +308,22 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 			this->cacheStorage[indexVal][i].validBit = 1;
 			this->cacheStorage[indexVal][i].lruVal = 0;
 			this->cacheStorage[indexVal][i].tag = tagVal;
-			if(isDirty){ this->cacheStorage[indexVal][i].dirtyBit = 1; }
-			else{ this->cacheStorage[indexVal][i].dirtyBit = 0; }
+			if(isDirty){ 	
+				this->cacheStorage[indexVal][i].dirtyBit = 1; 
+			}
+			else{ 
+				this->cacheStorage[indexVal][i].dirtyBit = 0; 
+			}
+			
+			//Increment all LRU by 1
+			for(int i = 0; i < this->assoc; i++){
+				if(this->cacheStorage[indexVal][i].dirtyBit == 1){
+					this->cacheStorage[indexVal][i].lruVal++;	
+				}
+			}
 			
 			//printf("Placing tag %d in set %d assoc %d\n",tagVal,indexVal,i);
-			
+		
 			return doWriteBack;
 		}
 		if (this->cacheStorage[indexVal][i].lruVal > LRUHighest){
@@ -323,6 +345,13 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 	this->cacheStorage[indexVal][LRUIndex].tag = tagVal;
 	if(isDirty){ this->cacheStorage[indexVal][LRUIndex].dirtyBit = 1; }
 	else{ this->cacheStorage[indexVal][LRUIndex].dirtyBit = 0; }
+	
+	//Increment all LRU by 1
+	for(int i = 0; i < this->assoc; i++){
+		if(this->cacheStorage[indexVal][i].dirtyBit == 1){
+			this->cacheStorage[indexVal][i].lruVal++;	
+		}
+	}
 	
 	//printf("Evicting set %d assoc %d and adding tag %d\n",indexVal,LRUIndex,tagVal);
 	
