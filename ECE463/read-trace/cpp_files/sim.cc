@@ -97,13 +97,19 @@ int main (int argc, char *argv[]) {
 	//Cache Time
 		if(rw == 'r'){
 			//Read Request
-			outa++;
+			++outa;
 			if(!L1.checkCache(addr)){
 				//Not in L1, check L2
-				if(!L2.checkCache(addr)){	
+				++outb;
+				++outh;
+				if(!L2.checkCache(addr)){
+					++outq;
 					//Miss, bring into L2 from Main Mem
+					++outi;
 					if( 0 > L2.editCache(addr,0)){
-						//Writing back to Main Mem
+						//Must L2 Writeback to MM
+						++outo;
+						++outq;
 					}
 					else{
 						//No Writeback	
@@ -112,7 +118,9 @@ int main (int argc, char *argv[]) {
 				else {
 					//Found in L2, Bring into L1
 					if( 0 > L1.editCache(addr,0)){
-						//Must Writeback to L2
+						//Must L1 Writeback to L2
+						++outf;
+						++outl;
 					}
 					else {
 						//No Writeback
@@ -125,20 +133,30 @@ int main (int argc, char *argv[]) {
 		} 
 		else {
 			//Write Request
+			++outc;
 			if(!L1.checkCache(addr)){
+				++outd;
 				//Not in L1, check L2 to pull in
-				if(!L2.checkCache(addr)){	
+				++outh;
+				if(!L2.checkCache(addr)){
+					++outm;
+					++outq;
 					//Not in L2, bring into 
 					if( 0 > L2.editCache(addr,0)){
-						//Writing back to Main Mem
+						//Must L2 Writeback to MM
+						++outo;
+						++outq;
 					}
 					else{
 						//No Writeback	
 					}
 					
 					//Now in L2, Write to L1
+			
 					if( 0 > L1.editCache(addr,0)){
-						//Must Writeback to L2
+						//Must L1 Writeback to L2
+						++outf;
+						++outl;
 					}
 					else {
 						//No Writeback
@@ -147,7 +165,9 @@ int main (int argc, char *argv[]) {
 				else {
 					//Found in L2, Bring into L1
 					if( 0 > L1.editCache(addr,0)){
-						//Must Writeback to L2
+						//Must L1 Writeback to L2
+						++outf;
+						++outl;
 					}
 					else {
 						//No Writeback
@@ -157,7 +177,9 @@ int main (int argc, char *argv[]) {
 			else {
 				//Hit, Writing
 				if( 0 > L1.editCache(addr,0)){
-					//Must Writeback to L2
+					//Must L1 Writeback to L2
+					++outf;
+					++outl;
 				}
 				else {
 					//No Writeback
@@ -168,6 +190,7 @@ int main (int argc, char *argv[]) {
 	//DONE SIMULATING CHACE! COLLECT OUTPUTS!
 	
 	oute = outb + outd / (outa + outc);
+	outn = outi/outh;
 	
 	return(0);
 }
