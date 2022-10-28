@@ -253,7 +253,7 @@ int cacheInstance::checkCache(uint32_t addr){
     for(int i = 0; i < this->assoc; ++i){
 	if(this->cacheStorage[indexVal][i].validBit == 0) continue;
 	if(this->cacheStorage[indexVal][i].tag == tagVal){
-		//printf("HIT! %d @ index %d way %d\n",tagVal,indexVal,i);
+		printf("HIT! %d @ index %d way %d\n",tagVal,indexVal,i);
 		
 		//Increment all LRU by 1
 		for(int b = 0; b < this->assoc; b++){
@@ -265,7 +265,7 @@ int cacheInstance::checkCache(uint32_t addr){
 		return i + 1;
 	}
     }
-    //printf("MISS! %d not in cache",tagVal);
+    printf("MISS! %d not in cache",tagVal);
     return 0;
 
 }
@@ -278,7 +278,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
     int indexVal = addr >> this->blockOffsetBits;
     int numIndexBits = pow(2,this->indexBits) - 1;
     indexVal = indexVal & numIndexBits;
-   // printf("Index Val: %d\n",indexVal);
+    printf("Index Val: %d\n",indexVal);
 	
     //get tag value
     uint32_t tagVal = addr >> (this->indexBits + this->blockOffsetBits);
@@ -322,7 +322,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 			}
 		}
 			
-			//printf("Placing tag %d in set %d assoc %d\n",tagVal,indexVal,i);
+			printf("Placing tag %d in set %d assoc %d\n",tagVal,indexVal,i);
 		
 			return doWriteBack;
 		}
@@ -353,7 +353,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 			}
 		}
 	
-	//printf("Evicting set %d assoc %d and adding tag %d\n",indexVal,LRUIndex,tagVal);
+	printf("Evicting set %d assoc %d and adding tag %d\n",indexVal,LRUIndex,tagVal);
 	
 	return doWriteBack;
 
