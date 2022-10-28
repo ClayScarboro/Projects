@@ -190,7 +190,19 @@ int main (int argc, char *argv[]) {
 	//DONE SIMULATING CHACE! COLLECT OUTPUTS!
 	
 	oute = outb + outd / (outa + outc);
-	outn = outi/outh;
+	outn = outi / outh;
+	
+	for(int i = 0; i < L1.numSets; i++){
+		printf("set	%d:", i);
+		for(int k = 0; i < L1.assoc; i++){
+			printf("	%d:", L1->cacheStorage[i][k].tag);
+			if(L1->cacheStorage[i][k].validBit == 1){
+				printf(" D");	
+			}
+			else printf("  ");
+		}
+		printf("\n");
+	}
 	
 	printf("===== Measurements =====\n");
   	printf("L1 reads:  %u\n", outa);
