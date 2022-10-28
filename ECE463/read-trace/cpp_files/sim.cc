@@ -265,7 +265,7 @@ int main (int argc, char *argv[]) {
 	if(params.L2_SIZE > 0){
 		printf("===== L2 contents =====\n");
 		for(int i = 0; i < L2.numSets; i++){
-			printf("set	%d:", i);
+			printf("set		%d:", i);
 			for(int k = 0; k < L2.assoc; k++){
 				printf("	%x:", L2.cacheStorage[i][k].tag);
 				if(L2.cacheStorage[i][k].dirtyBit == 1){
