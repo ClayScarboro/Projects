@@ -87,9 +87,9 @@ int main (int argc, char *argv[]) {
 // Read requests from the trace file and echo them back.
 	while (fscanf(fp, "%c %x\n", &rw, &addr) == 2) {	// Stay in the loop if fscanf() successfully parsed two tokens as specified.
 		if (rw == 'r')
-			printf("r %x\n", addr);
+			//printf("r %x\n", addr);
 		else if (rw == 'w')
-			printf("w %x\n", addr);
+			//printf("w %x\n", addr);
 		else {
 			printf("Error: Unknown request type %c.\n", rw);
 		exit(EXIT_FAILURE);
@@ -194,7 +194,7 @@ int main (int argc, char *argv[]) {
 	
 	for(int i = 0; i < L1.numSets; i++){
 		printf("set	%d:", i);
-		for(int k = 0; i < L1.assoc; i++){
+		for(int k = 0; i < L1.assoc; k++){
 			printf("	%d:", L1.cacheStorage[i][k].tag);
 			if(L1.cacheStorage[i][k].validBit == 1){
 				printf(" D");	
@@ -206,7 +206,7 @@ int main (int argc, char *argv[]) {
 	
 	for(int i = 0; i < L2.numSets; i++){
 		printf("set	%d:", i);
-		for(int k = 0; i < L2.assoc; i++){
+		for(int k = 0; i < L2.assoc; k++){
 			printf("	%d:", L2.cacheStorage[i][k].tag);
 			if(L2.cacheStorage[i][k].validBit == 1){
 				printf(" D");	
