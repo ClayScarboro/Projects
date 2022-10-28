@@ -99,100 +99,145 @@ int main (int argc, char *argv[]) {
 		}
 	//Cache Time
 	uint32_t dirtyAddr;
-		
-		if(rw == 'r'){
-			//Read Request
-			++outa;
-			if(!L1.checkCache(addr)){
-				//Not in L1, check L2
-				++outb;
-				++outh;
-				if(!L2.checkCache(addr)){
-					++outq;
-					//Miss, bring into L2 from Main Mem and then L1 from L2
-					++outi;
-					dirtyAddr = L2.editCache(addr,0);
-					if( 0 > dirtyAddr){
-						//Must L2 Writeback to MM
-						++outo;
+		if(params.L2_SIZE > 0){
+			if(rw == 'r'){
+				//Read Request
+				++outa;
+				if(!L1.checkCache(addr)){
+					//Not in L1, check L2
+					++outb;
+					++outh;
+					if(!L2.checkCache(addr)){
 						++outq;
-						L2.editCache(dirtyAddr,1);
+						//Miss, bring into L2 from Main Mem and then L1 from L2
+						++outi;
+						dirtyAddr = L2.editCache(addr,0);
+						if( 0 > dirtyAddr){
+							//Must L2 Writeback to MM
+							++outo;
+							++outq;
+							L2.editCache(dirtyAddr,1);
+						}
+						
+						dirtyAddr = L1.editCache(addr,0);
+						if( 0 > dirtyAddr){
+							//Must L2 Writeback to MM
+							++outo;
+							++outq;
+							L1.editCache(dirtyAddr,1);
+						}
 					}
-					
-					dirtyAddr = L1.editCache(addr,0);
-					if( 0 > dirtyAddr){
-						//Must L2 Writeback to MM
-						++outo;
-						++outq;
-						L1.editCache(dirtyAddr,1);
+					else {
+						//Found in L2, Bring into L1
+						dirtyAddr = L1.editCache(addr,0);
+						if( 0 > dirtyAddr){
+							//Must L2 Writeback to MM
+							++outo;
+							++outq;
+							L2.editCache(dirtyAddr,1);
+						}
 					}
-				}
+				} 
 				else {
-					//Found in L2, Bring into L1
-					dirtyAddr = L1.editCache(addr,0);
-					if( 0 > dirtyAddr){
-						//Must L2 Writeback to MM
-						++outo;
-						++outq;
-						L2.editCache(dirtyAddr,1);
-					}
+					//Hit, read successful
 				}
 			} 
 			else {
-				//Hit, read successful
+				//Write Request
+				++outc;
+				if(!L1.checkCache(addr)){
+					++outd;
+					//Not in L1, check L2 to pull in
+					++outh;
+					if(!L2.checkCache(addr)){
+						++outm;
+						++outq;
+						//Not in L2, bring into MM
+						dirtyAddr = L2.editCache(addr,0);
+						if( 0 > dirtyAddr){
+							//Must L2 Writeback to MM
+							++outo;
+							++outq;
+						}
+						
+						//Now in L2, Write to L1
+				
+						dirtyAddr = L1.editCache(addr,1);
+						if( 0 > dirtyAddr){
+							//Must L2 Writeback to MM
+							++outo;
+							++outq;
+							L2.editCache(dirtyAddr,1);
+						}
+					}
+					else {
+						//Found in L2, Bring into L1
+						dirtyAddr = L1.editCache(addr,1);
+						if( 0 > dirtyAddr){
+							//Must L2 Writeback to MM
+							++outo;
+							++outq;
+							L2.editCache(dirtyAddr,1);
+						}
+					}
+				} 
+				else {
+					//Hit, Writing
+					dirtyAddr = L1.editCache(addr,1);
+						if( 0 > dirtyAddr){
+							//Must L2 Writeback to MM
+							++outo;
+							++outq;
+							L2.editCache(dirtyAddr,1);
+					}
+				}
 			}
-		} 
-		else {
-			//Write Request
-			++outc;
-			if(!L1.checkCache(addr)){
-				++outd;
-				//Not in L1, check L2 to pull in
-				++outh;
-				if(!L2.checkCache(addr)){
-					++outm;
-					++outq;
-					//Not in L2, bring into MM
-					dirtyAddr = L2.editCache(addr,0);
-					if( 0 > dirtyAddr){
-						//Must L2 Writeback to MM
-						++outo;
-						++outq;
+		} else {
+			if(rw == 'r'){
+				//Read Request
+				++outa;
+				if(!L1.checkCache(addr)){
+					//Not in L1, move from mem
+					++outb;
+					++outh;
+					dirtyAddr = L1.editCache(addr,0);
+						if( 0 > dirtyAddr){
+							//Must L1 Writeback to MM
+							++outo;
+							++outq;
 					}
-					
-					//Now in L2, Write to L1
-			
-					dirtyAddr = L1.editCache(addr,1);
-					if( 0 > dirtyAddr){
-						//Must L2 Writeback to MM
-						++outo;
-						++outq;
-						L2.editCache(dirtyAddr,1);
-					}
-				}
+				} 
 				else {
-					//Found in L2, Bring into L1
-					dirtyAddr = L1.editCache(addr,1);
-					if( 0 > dirtyAddr){
-						//Must L2 Writeback to MM
-						++outo;
-						++outq;
-						L2.editCache(dirtyAddr,1);
-					}
+					//Hit, read successful
 				}
 			} 
 			else {
-				//Hit, Writing
-				dirtyAddr = L1.editCache(addr,1);
-					if( 0 > dirtyAddr){
-						//Must L2 Writeback to MM
-						++outo;
-						++outq;
-						L2.editCache(dirtyAddr,1);
+				//Write Request
+				++outc;
+				if(!L1.checkCache(addr)){
+					++outd;
+					//Not in L1, move from mem
+					++outh;
+					dirtyAddr = L1.editCache(addr,1);
+						if( 0 > dirtyAddr){
+							//Must L1 Writeback to MM
+							++outo;
+							++outq;
+					}
+				} 
+				else {
+					//Hit, Writing
+					dirtyAddr = L1.editCache(addr,1);
+						if( 0 > dirtyAddr){
+							//Must L2 Writeback to MM
+							++outo;
+							++outq;
+					}
 				}
 			}
 		}
-	}
+	} 
+
 	//DONE SIMULATING CHACE! COLLECT OUTPUTS!
 	
 	oute = outb + outd / (outa + outc);
