@@ -115,7 +115,7 @@ int main (int argc, char *argv[]) {
 						//Must L2 Writeback to MM
 						++outo;
 						++outq;
-						L2.editCache(dirtyAddr,1)
+						L2.editCache(dirtyAddr,1);
 					}
 				}
 				else {
@@ -125,7 +125,7 @@ int main (int argc, char *argv[]) {
 						//Must L2 Writeback to MM
 						++outo;
 						++outq;
-						L2.editCache(dirtyAddr,1)
+						L2.editCache(dirtyAddr,1);
 					}
 				}
 			} 
@@ -158,7 +158,7 @@ int main (int argc, char *argv[]) {
 						//Must L2 Writeback to MM
 						++outo;
 						++outq;
-						L2.editCache(dirtyAddr,1)
+						L2.editCache(dirtyAddr,1);
 					}
 				}
 				else {
@@ -168,7 +168,7 @@ int main (int argc, char *argv[]) {
 						//Must L2 Writeback to MM
 						++outo;
 						++outq;
-						L2.editCache(dirtyAddr,1)
+						L2.editCache(dirtyAddr,1);
 					}
 				}
 			} 
@@ -179,7 +179,7 @@ int main (int argc, char *argv[]) {
 						//Must L2 Writeback to MM
 						++outo;
 						++outq;
-						L2.editCache(dirtyAddr,1)
+						L2.editCache(dirtyAddr,1);
 				}
 			}
 		}
