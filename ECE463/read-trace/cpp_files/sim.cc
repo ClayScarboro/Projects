@@ -333,7 +333,7 @@ int cacheInstance::editCache(uint32_t addr, int isDirty){
 	}
 	
 	//No open slot, must evict and handle LRU
-	if(this->cacheStorage[indexVal][LRUIndex].dirtyBit = 1){
+	if(this->cacheStorage[indexVal][LRUIndex].dirtyBit == 1){
 	//MUST WRITEBACK!	
 	doWriteBack = cacheStorage[indexVal][LRUIndex].tag;	
 	}
