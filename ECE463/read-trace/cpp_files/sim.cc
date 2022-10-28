@@ -115,7 +115,7 @@ int main (int argc, char *argv[]) {
 						//Miss, bring into L2 from Main Mem and then L1 from L2
 						++outi;
 						dirtyAddr = L2.editCache(addr,0);
-						if( 0 > dirtyAddr){
+						if( 0 < dirtyAddr){
 							//Must L2 Writeback to MM
 							++outo;
 							++outq;
@@ -123,7 +123,7 @@ int main (int argc, char *argv[]) {
 						}
 						
 						dirtyAddr = L1.editCache(addr,0);
-						if( 0 > dirtyAddr){
+						if( 0 < dirtyAddr){
 							//Must L2 Writeback to MM
 							++outo;
 							++outq;
@@ -133,7 +133,7 @@ int main (int argc, char *argv[]) {
 					else {
 						//Found in L2, Bring into L1
 						dirtyAddr = L1.editCache(addr,0);
-						if( 0 > dirtyAddr){
+						if( 0 < dirtyAddr){
 							//Must L2 Writeback to MM
 							++outo;
 							++outq;
@@ -157,7 +157,7 @@ int main (int argc, char *argv[]) {
 						++outq;
 						//Not in L2, bring into MM
 						dirtyAddr = L2.editCache(addr,0);
-						if( 0 > dirtyAddr){
+						if( 0 < dirtyAddr){
 							//Must L2 Writeback to MM
 							++outo;
 							++outq;
@@ -166,7 +166,7 @@ int main (int argc, char *argv[]) {
 						//Now in L2, Write to L1
 				
 						dirtyAddr = L1.editCache(addr,1);
-						if( 0 > dirtyAddr){
+						if( 0 < dirtyAddr){
 							//Must L2 Writeback to MM
 							++outo;
 							++outq;
@@ -176,7 +176,7 @@ int main (int argc, char *argv[]) {
 					else {
 						//Found in L2, Bring into L1
 						dirtyAddr = L1.editCache(addr,1);
-						if( 0 > dirtyAddr){
+						if(dirtyAddr > 0){
 							//Must L2 Writeback to MM
 							++outo;
 							++outq;
@@ -187,7 +187,7 @@ int main (int argc, char *argv[]) {
 				else {
 					//Hit, Writing
 					dirtyAddr = L1.editCache(addr,1);
-						if( 0 > dirtyAddr){
+						if( dirtyAddr > 0){
 							//Must L2 Writeback to MM
 							++outo;
 							++outq;
@@ -207,7 +207,7 @@ int main (int argc, char *argv[]) {
 					++outb;
 					++outh;
 					dirtyAddr = L1.editCache(addr,0);
-						if( 0 > dirtyAddr){
+						if( dirtyAddr > 0){
 							//Must L1 Writeback to MM
 							++outf;
 							++outq;
@@ -224,7 +224,7 @@ int main (int argc, char *argv[]) {
 					//not in L1, bring in form mem
 					++outd;
 					dirtyAddr = L1.editCache(addr,0);
-						if( 0 > dirtyAddr){
+						if( dirtyAddr > 0){
 							//Must L1 Writeback to MM
 							++outf;
 							++outq;
@@ -233,7 +233,7 @@ int main (int argc, char *argv[]) {
 				else {
 					//Hit, Writing
 					dirtyAddr = L1.editCache(addr,1);
-						if( 0 > dirtyAddr){
+						if(dirtyAddr > 0){
 							//Must L1 Writeback to MM
 							++outf;
 							++outq;
