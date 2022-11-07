@@ -12,13 +12,19 @@ typedef struct bp_params{
 class branchPredictor{
 public:
     int m, n, size;
-    int *indexTable = NULL;
+    twoBitCounter *storage = NULL;
     
     branchPredictor(int m,int n);
     ~branchPredictor();
-    void editBranchPredictor(unsigned long int addr,char outcome);
+    int makePrediction(unsigned long int addr,char outcome);
     
 };
+
+class twoBitCounter{
+public:
+    int val;
+    int index;
+}
 
 
 #endif
