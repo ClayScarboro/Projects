@@ -110,7 +110,7 @@ int main (int argc, char* argv[])
         if(!mainBP.makePrediction(addr,outcome)) ++numMispredictions;
     }
     
-    predRate = (float)numPredictions / numMispredictions;
+    predRate = (float)numMispredictions / numPredictions;
     printf("Results:\n");
     printf("Predictions: %d\n",numPredictions);
     printf("Mispredictions: %d\n",numMispredictions);
