@@ -163,7 +163,7 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
     if(storage[validIndex].val >= 2){
         //WE PREDICT TAKE!   
         
-        if(outcome == "t"){
+        if(outcome == 't'){
             //CORRECT!
             if(storage[validIndex].val == 3) ++storage[validIndex].val;
             correct = 1;
@@ -178,7 +178,7 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
     else{
         //WE PREDICT NO-TAKE!   
         
-        if(outcome == "n"){
+        if(outcome == 'n'){
             //CORRECT!
             if(storage[validIndex].val == 1) --storage[validIndex].val;
             correct = 1;
