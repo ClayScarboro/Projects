@@ -9,6 +9,12 @@ typedef struct bp_params{
     char*             bp_name;
 }bp_params;
 
+class twoBitCounter{
+public:
+    int val;
+    int index;
+}
+
 class branchPredictor{
 public:
     int m, n, size;
@@ -19,12 +25,6 @@ public:
     int makePrediction(unsigned long int addr,char outcome);
     
 };
-
-class twoBitCounter{
-public:
-    int val;
-    int index;
-}
 
 
 #endif
