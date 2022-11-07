@@ -84,6 +84,7 @@ int main (int argc, char* argv[])
         printf("Error: Unable to open file %s\n", trace_file);
         exit(EXIT_FAILURE);
     }
+    printf("IS THERE ANYTHING HAPPENING?");
     
     char str[2];
     while(fscanf(FP, "%lx %s", &addr, str) != EOF)
@@ -95,7 +96,9 @@ int main (int argc, char* argv[])
         else if (outcome == 'n')
             printf("%lx %s\n", addr, "n");          // Print and test if file is read correctly
         else
-            printf("IS THERE ANYTHING HAPPENING?");
+            printf("IS THERE ANYTHING HAPPENING2?");
     }
+    
+    printf("IS THERE ANYTHING HAPPENING3?");
     return 0;
 }
