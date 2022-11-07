@@ -112,9 +112,9 @@ int main (int argc, char* argv[])
     
     predRate = (float)numPredictions / numMispredictions;
     printf("Results:\n");
-    printf("Predictions: %d\n",numPredeictions);
+    printf("Predictions: %d\n",numPredictions);
     printf("Mispredictions: %d\n",numMispredictions);
-    printf("Prediction Correct Rate: %d\n",predRate);
+    printf("Prediction Correct Rate: %f\n",predRate);
     
     return 0;
 }
@@ -126,13 +126,13 @@ branchPredictor::branchPredictor(int mInput, int nInput){
     storage = new twoBitCounter[size];
     
     for(int i = 0; i < size; ++i){
-        indexTable[i].val = 2;
-        indexTable[i].index = 0;
+        storage[i].val = 2;
+        storage[i].index = 0;
     }
 };
 
 branchPredictor::~branchPredictor(){
-    delete [] indexTable;   
+    delete [] storage;   
 }
 
 int branchPredictor::makePrediction(unsigned long int addr,char outcome){
