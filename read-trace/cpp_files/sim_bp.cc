@@ -88,7 +88,7 @@ int main (int argc, char* argv[])
     char str[2];
     while(fscanf(FP, "%lx %s", &addr, str) != EOF)
     {
-        
+        printf("Working\n");
         outcome = str[0];
         if (outcome == 't')
             printf("%lx %s\n", addr, "t");           // Print and test if file is read correctly
