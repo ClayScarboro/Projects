@@ -21,7 +21,6 @@ public:
     twoBitCounter *storage = NULL;
     
     branchPredictor(int m,int n);
-    ~branchPredictor();
     int makePrediction(unsigned long int addr,char outcome);
     
 };
