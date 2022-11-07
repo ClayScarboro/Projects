@@ -13,7 +13,7 @@ class twoBitCounter{
 public:
     int val;
     int index;
-}
+};
 
 class branchPredictor{
 public:
