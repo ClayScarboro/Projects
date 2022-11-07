@@ -9,6 +9,14 @@ typedef struct bp_params{
     char*             bp_name;
 }bp_params;
 
-// Put additional data structures here as per your requirement
+class BHT {
+public:
+    int m,n;
+    
+    BHT(int m,int n);
+    
+    void editBHT();
+    
+};
 
 #endif
