@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "sim_bp.h"
+#include <cmath>
 
 /*  argc holds the number of command line arguments
     argv[] holds the commands themselves
@@ -29,10 +30,14 @@ int main (int argc, char* argv[])
     }
     
     params.bp_name  = argv[1];
+    int mode;
+    // 0 = bimodal
+    // 1 = gshare
     
     // strtoul() converts char* to unsigned long. It is included in <stdlib.h>
     if(strcmp(params.bp_name, "bimodal") == 0)              // Bimodal
     {
+        mode = 0;
         if(argc != 4)
         {
             printf("Error: %s wrong number of inputs:%d\n", params.bp_name, argc-1);
@@ -44,6 +49,7 @@ int main (int argc, char* argv[])
     }
     else if(strcmp(params.bp_name, "gshare") == 0)          // Gshare
     {
+        mode = 1;
         if(argc != 5)
         {
             printf("Error: %s wrong number of inputs:%d\n", params.bp_name, argc-1);
@@ -88,7 +94,7 @@ int main (int argc, char* argv[])
     char str[2];
     while(fscanf(FP, "%lx %s", &addr, str) != EOF)
     {
-        printf("Working\n");
+       
         outcome = str[0];
         if (outcome == 't')
             printf("%lx %s\n", addr, "t");           // Print and test if file is read correctly
@@ -100,3 +106,20 @@ int main (int argc, char* argv[])
     }
     return 0;
 }
+
+branchPredictor::branchPredictor(int mInput, int nInput){
+    m = mInput;
+    n = nInput;
+    size = pow(2,m);
+    indexTable = new int[size];
+    
+    for(int i = 0; i < size; ++i){
+        indexTable[i] = 0;
+    }
+};
+
+branchPredictor::~branchPredictor(){
+    delete [] indexTable;   
+}
+
+
