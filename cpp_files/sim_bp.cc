@@ -94,9 +94,8 @@ int main (int argc, char* argv[])
             printf("%lx %s\n", addr, "t");           // Print and test if file is read correctly
         else if (outcome == 'n')
             printf("%lx %s\n", addr, "n");          // Print and test if file is read correctly
-        /*************************************
-            Add branch predictor code here
-        **************************************/
+        else
+            printf("IS THERE ANYTHING HAPPENING?");
     }
     return 0;
 }
