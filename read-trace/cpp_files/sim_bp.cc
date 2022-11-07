@@ -133,10 +133,6 @@ branchPredictor::branchPredictor(int mInput, int nInput){
     }
 };
 
-branchPredictor::~branchPredictor(){
-    delete [] storage;   
-}
-
 int branchPredictor::makePrediction(unsigned long int addr,char outcome){
     int validIndex = -1;
     int correct;
