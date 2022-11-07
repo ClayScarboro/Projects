@@ -196,8 +196,8 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
     
     //print result and return (in)correct
     
-    if(correct) printf("Made CORRECT prediction on %d, new val: %d\n",addr,storage[validIndex].val);
-    else printf("Made INCORRECT prediction on %d, new val: %d\n",addr,storage[validIndex].val);
+    //if(correct) printf("Made CORRECT prediction on %d, new val: %d\n",addr,storage[validIndex].val);
+   // else printf("Made INCORRECT prediction on %d, new val: %d\n",addr,storage[validIndex].val);
     
     return correct;
 };
