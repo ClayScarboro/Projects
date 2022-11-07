@@ -107,13 +107,13 @@ int main (int argc, char* argv[])
             printf("%lx %s\n", addr, "n");          // Print and test if file is read correctly
         // DOING SIMULATION!
         ++numPredictions;
-        if(!mainBP.editBranchPredictor(addr,outcome)) ++numMispredictions
+        if(!mainBP.makePrediction(addr,outcome)) ++numMispredictions;
     }
     
     predRate = (float)numPredictions / numMispredictions;
     printf("Results:\n");
     printf("Predictions: %d\n",numPredeictions);
-    printf("Mispredictions: %d\n",numMispredeictions);
+    printf("Mispredictions: %d\n",numMispredictions);
     printf("Prediction Correct Rate: %d\n",predRate);
     
     return 0;
@@ -123,7 +123,7 @@ branchPredictor::branchPredictor(int mInput, int nInput){
     m = mInput;
     n = nInput;
     size = pow(2,m);
-    indexTable = new twoBitCounter[size];
+    storage = new twoBitCounter[size];
     
     for(int i = 0; i < size; ++i){
         indexTable[i].val = 2;
