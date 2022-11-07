@@ -17,6 +17,9 @@
 */
 int main (int argc, char* argv[])
 {
+    int numPredictions = 0;
+    int numMispredictions = 0;
+    float predRate;
     FILE *FP;               // File handler
     char *trace_file;       // Variable that holds trace file name;
     bp_params params;       // look at sim_bp.h header file for the the definition of struct bp_params
@@ -91,6 +94,8 @@ int main (int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
     
+    branchPredictor mainBP(params.M2,0);
+    
     char str[2];
     while(fscanf(FP, "%lx %s", &addr, str) != EOF)
     {
@@ -100,10 +105,17 @@ int main (int argc, char* argv[])
             printf("%lx %s\n", addr, "t");           // Print and test if file is read correctly
         else if (outcome == 'n')
             printf("%lx %s\n", addr, "n");          // Print and test if file is read correctly
-        /*************************************
-            Add branch predictor code here
-        **************************************/
+        // DOING SIMULATION!
+        ++numPredictions;
+        if(!mainBP.editBranchPredictor(addr,outcome)) ++numMispredictions
     }
+    
+    predRate = (float)numPredictions / numMispredictions;
+    printf("Results:\n");
+    printf("Predictions: %d\n",numPredeictions);
+    printf("Mispredictions: %d\n",numMispredeictions);
+    printf("Prediction Correct Rate: %d\n",predRate);
+    
     return 0;
 }
 
@@ -111,15 +123,81 @@ branchPredictor::branchPredictor(int mInput, int nInput){
     m = mInput;
     n = nInput;
     size = pow(2,m);
-    indexTable = new int[size];
+    indexTable = new twoBitCounter[size];
     
     for(int i = 0; i < size; ++i){
-        indexTable[i] = 0;
+        indexTable[i].val = 2;
+        indexTable[i].index = 0;
     }
 };
 
 branchPredictor::~branchPredictor(){
     delete [] indexTable;   
 }
+
+int branchPredictor::makePrediction(unsigned long int addr,char outcome){
+    int validIndex = -1;
+    int correct;
+    
+    //trying to find past entry in 2 bit counter
+    for(int i = 0; i < size; ++i){
+        if (addr != storage[i].index) continue;
+        else{
+            validIndex = i;
+            break;
+        }
+    }
+    
+    //if not found, populate in nearest empty slot
+    if(validIndex < 0){
+        for(int i = 0; i < size; ++i){
+            if(storage[i].index == 0){
+               storage[i].index = addr;
+                validIndex = i;
+            }
+        }
+    }
+    
+    //now that we have index, make prediction
+    //make adjustment on outcome
+    if(storage[validIndex].val >= 2){
+        //WE PREDICT TAKE!   
+        
+        if(outcome == "t"){
+            //CORRECT!
+            if(storage[validIndex].val == 3) ++storage[validIndex].val;
+            correct = 1;
+        }
+        
+        else{
+            //WRONG!
+            --storage[validIndex].val;
+            correct = 0;
+        }
+    }
+    else{
+        //WE PREDICT NO-TAKE!   
+        
+        if(outcome == "n"){
+            //CORRECT!
+            if(storage[validIndex].val == 1) --storage[validIndex].val;
+            correct = 1;
+        }
+        
+        else{
+            //WRONG!
+            ++storage[validIndex].val;
+            correct = 0;
+        }
+        
+    }
+    
+    //print result and return (in)correct
+    
+    if(correct) printf("Made CORRECT prediction on %d, new val: %d\n",addr,storage[validIndex].val);
+    else printf("Made INCORRECT prediction on %d, new val: %d\n",addr,storage[validIndex].val);
+    
+    return correct;
+};
 
 
