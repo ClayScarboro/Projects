@@ -9,14 +9,16 @@ typedef struct bp_params{
     char*             bp_name;
 }bp_params;
 
-class BHT {
+class branchPredictor{
 public:
-    int m,n;
+    int m, n, size;
+    int *indexTable = NULL;
     
-    BHT(int m,int n);
-    
-    void editBHT();
+    branchPredictor(int m,int n);
+    ~branchPredictor();
+    void editBranchPredictor(unsigned long int addr,char outcome);
     
 };
+
 
 #endif
