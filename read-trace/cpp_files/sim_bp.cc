@@ -101,10 +101,12 @@ int main (int argc, char* argv[])
     {
        
         outcome = str[0];
+        /*
         if (outcome == 't')
             printf("%lx %s\n", addr, "t");           // Print and test if file is read correctly
         else if (outcome == 'n')
             printf("%lx %s\n", addr, "n");          // Print and test if file is read correctly
+        */
         // DOING SIMULATION!
         ++numPredictions;
         if(!mainBP.makePrediction(addr,outcome)) ++numMispredictions;
