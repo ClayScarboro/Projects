@@ -120,9 +120,9 @@ int main (int argc, char* argv[])
         */
         // DOING SIMULATION!
         ++numPredictions;
-        printf("Success2\n");
+        
         if(!mainBP.makePrediction(addr,outcome)) ++numMispredictions;
-        printf("Success3\n");
+       
     }
     printf("OUTPUT\n");
     predRate = ((float)numMispredictions / numPredictions) * 100;
@@ -188,7 +188,7 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
         validIndex = xorIndex | bottomValidIndex;
     }
     
-    printf("Got Index %d\n",validIndex);
+    
     
     //now that we have index, make prediction
     //make adjustment on outcome
