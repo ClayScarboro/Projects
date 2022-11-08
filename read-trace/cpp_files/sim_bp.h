@@ -17,7 +17,7 @@ public:
 
 class branchPredictor{
 public:
-    int m, n, size;
+    int m, n, size; gbhVal;
     twoBitCounter *storage = NULL;
     
     branchPredictor(int m,int n);
