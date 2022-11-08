@@ -130,7 +130,7 @@ int main (int argc, char* argv[])
     printf("number of mispredictions:  %d\n",numMispredictions);
     printf("misprediction rate: %.2f%\n",predRate);
     
-    mainBP.printContents();
+    //mainBP.printContents();
     
     return 0;
 }
