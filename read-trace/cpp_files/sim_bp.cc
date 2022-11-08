@@ -97,7 +97,7 @@ int main (int argc, char* argv[])
     
     //Making correct type of cache
     if(mode){
-         branchPredictor mainBP(params.M1,params.N)
+         branchPredictor mainBP(params.M1,params.N);
     } else{
         branchPredictor mainBP(params.M2,0);
     }
