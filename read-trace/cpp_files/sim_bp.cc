@@ -156,7 +156,7 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
         
         if(outcome == 't'){
             //CORRECT!
-            if(storage[validIndex].val == 3) ++storage[validIndex].val;
+            if(storage[validIndex].val == 2) ++storage[validIndex].val;
             correct = 1;
         }
         
