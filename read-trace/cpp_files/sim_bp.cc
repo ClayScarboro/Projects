@@ -125,7 +125,7 @@ int main (int argc, char* argv[])
         
 void branchPredictor::printContents(){
     for(int i = 0; i < size; i++){
-        printf("%d  %d",i,storage[i].val);   
+        printf("%d  %d\n",i,storage[i].val);   
     }
 }
 
