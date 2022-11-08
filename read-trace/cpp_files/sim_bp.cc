@@ -118,7 +118,15 @@ int main (int argc, char* argv[])
     printf("Mispredictions: %d\n",numMispredictions);
     printf("Prediction Correct Rate: %f\n",predRate);
     
+    mainBP.printContents();
+    
     return 0;
+}
+        
+void branchPredictor::printContents(){
+    for(int i = 0; i < size; i++i){
+        printf("%d  %d",i,storage[i].val);   
+    }
 }
 
 branchPredictor::branchPredictor(int mInput, int nInput){
@@ -137,24 +145,9 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
     int validIndex = -1;
     int correct;
     
-    //trying to find past entry in 2 bit counter
-    for(int i = 0; i < size; ++i){
-        if (addr != storage[i].index) continue;
-        else{
-            validIndex = i;
-            break;
-        }
-    }
-    
-    //if not found, populate in nearest empty slot
-    if(validIndex < 0){
-        for(int i = 0; i < size; ++i){
-            if(storage[i].index == 0){
-               storage[i].index = addr;
-                validIndex = i;
-            }
-        }
-    }
+    //Getting Valid Index
+    validIndex = addr >> 2;
+    validIndex = validIndex & (pow(2,m) - 1);
     
     //now that we have index, make prediction
     //make adjustment on outcome
