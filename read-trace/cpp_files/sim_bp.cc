@@ -152,16 +152,16 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
     
     //Getting Valid Index for bimodal
     if(n == 0){
-    validIndex = addr >> 2;
-    validIndex = validIndex & (int)(pow(2,m) - 1);
+        validIndex = addr >> 2;
+        validIndex = validIndex & (int)(pow(2,m) - 1);
     }
     
     //Getting valid Index for GShare
     if(n > 0){
-    validIndex = addr >> 2;
-    validIndex = validIndex & (int)(pow(2,m) - 1);
-    int nBits = m - n;
-    validIndex = (n << nBits) ^ validIndex;
+        validIndex = addr >> 2;
+        validIndex = validIndex & (int)(pow(2,m) - 1);
+        int nBits = m - n;
+        validIndex = (n << nBits) ^ validIndex;
     }
     
     //now that we have index, make prediction
@@ -201,10 +201,10 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
     //If GShare, update GBHR
     if(n > 0){
         n = << 1;
-        if(outcome == 't') n = n & ((int)pow(2,n) - 1);
-        } else {
-        if(outcome == 't') n = n & ((int)pow(2,n-1) - 1);
-        }
+        if(outcome == 't'){ 
+            n = n & ((int)pow(2,n) - 1); } 
+        else { 
+            n = n & ((int)pow(2,n-1) - 1); }
     }
     
     //print result and return (in)correct
