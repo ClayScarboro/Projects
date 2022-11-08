@@ -124,7 +124,7 @@ int main (int argc, char* argv[])
 }
         
 void branchPredictor::printContents(){
-    for(int i = 0; i < size; i++i){
+    for(int i = 0; i < size; i++){
         printf("%d  %d",i,storage[i].val);   
     }
 }
@@ -142,12 +142,12 @@ branchPredictor::branchPredictor(int mInput, int nInput){
 };
 
 int branchPredictor::makePrediction(unsigned long int addr,char outcome){
-    int validIndex = -1;
+    int validIndex;
     int correct;
     
     //Getting Valid Index
     validIndex = addr >> 2;
-    validIndex = validIndex & (pow(2,m) - 1);
+    validIndex = validIndex & (int)(pow(2,m) - 1);
     
     //now that we have index, make prediction
     //make adjustment on outcome
