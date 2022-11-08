@@ -94,7 +94,13 @@ int main (int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
     
-    branchPredictor mainBP(params.M2,0);
+    
+    //Making correct type of cache
+    if(mode){
+         branchPredictor mainBP(params.M1,params.N)
+    } else{
+        branchPredictor mainBP(params.M2,0);
+    }
     
     char str[2];
     while(fscanf(FP, "%lx %s", &addr, str) != EOF)
@@ -144,9 +150,19 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
     int validIndex;
     int correct;
     
-    //Getting Valid Index
+    //Getting Valid Index for bimodal
+    if(n == 0){
     validIndex = addr >> 2;
     validIndex = validIndex & (int)(pow(2,m) - 1);
+    }
+    
+    //Getting valid Index for GShare
+    if(n > 0){
+    validIndex = addr >> 2;
+    validIndex = validIndex & (int)(pow(2,m) - 1);
+    int nBits = m - n;
+    validIndex = (n << nBits) ^ validIndex;
+    }
     
     //now that we have index, make prediction
     //make adjustment on outcome
@@ -180,6 +196,15 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
             correct = 0;
         }
         
+    }
+    
+    //If GShare, update GBHR
+    if(n > 0){
+        n = << 1;
+        if(outcome == 't') n = n & ((int)pow(2,n) - 1);
+        } else {
+        if(outcome == 't') n = n & ((int)pow(2,n-1) - 1);
+        }
     }
     
     //print result and return (in)correct
