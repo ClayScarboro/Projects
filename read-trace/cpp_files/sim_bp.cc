@@ -184,7 +184,9 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
         
         //xorIndex = [n bits]00000                                
         int xorIndex = validIndex & ((int)(pow(2,n) - 1) << (m-n));
+        xorIndex = xorIndex >> (m-n);
         xorIndex = xorIndex ^ gbhVal;
+        xorIndex = xorIndex << (m-n);
         validIndex = xorIndex | bottomValidIndex;
     }
     
