@@ -135,10 +135,10 @@ int main (int argc, char* argv[])
         
 void branchPredictor::printContents(){
     //FINAL XXXXXX CONTENTS
-    printf("FINAL")
+    printf("FINAL");
     if(n > 0){
         printf(" GSHARE "); }   
-    else 
+    else{ 
         printf(" BIMODAL "); }   
     printf("CONTENTS\n");
         
