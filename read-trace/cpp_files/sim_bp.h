@@ -22,6 +22,7 @@ public:
     
     branchPredictor(int m,int n);
     int makePrediction(unsigned long int addr,char outcome);
+    void printContents();
     
 };
 
