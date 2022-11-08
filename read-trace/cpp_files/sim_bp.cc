@@ -115,7 +115,7 @@ int main (int argc, char* argv[])
     predRate = ((float)numMispredictions / numPredictions) * 100;
     printf("number of predictions:  %d\n",numPredictions);
     printf("number of mispredictions:  %d\n",numMispredictions);
-    printf("misprediction rate: %f%\n",predRate);
+    printf("misprediction rate: %.2f%\n",predRate);
     
     mainBP.printContents();
     
