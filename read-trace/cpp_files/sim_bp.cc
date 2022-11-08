@@ -96,11 +96,16 @@ int main (int argc, char* argv[])
     
     
     //Making correct type of cache
+    int nUse, mUse;
     if(mode){
-         branchPredictor mainBP(params.M1,params.N);
+         mUse = params.M1;
+         nUse = params.N;
     } else{
-        branchPredictor mainBP(params.M2,0);
+        mUse = params.M2;
+        nUse = 0;
     }
+    
+    branchPredictor mainBP(mUse,nUse);
     
     char str[2];
     while(fscanf(FP, "%lx %s", &addr, str) != EOF)
