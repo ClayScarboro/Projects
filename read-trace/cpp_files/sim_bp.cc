@@ -154,6 +154,7 @@ void branchPredictor::printContents(){
 branchPredictor::branchPredictor(int mInput, int nInput){
     m = mInput;
     n = nInput;
+    gbhVal = 0;
     size = pow(2,m);
     storage = new twoBitCounter[size];
     
@@ -183,7 +184,7 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
         
         //xorIndex = [n bits]00000                                
         int xorIndex = validIndex & ((int)(pow(2,n) - 1) << (m-n));
-        xorIndex = xorIndex ^ n;
+        xorIndex = xorIndex ^ gbhVal;
         validIndex = xorIndex | bottomValidIndex;
     }
     
@@ -225,11 +226,11 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
     
     //If GShare, update GBHR
     if(n > 0){
-        n = n << 1;
+        gbhVal = gbhVal << 1;
         if(outcome == 't'){ 
-            n = n & ((int)pow(2,n) - 1); } 
+            gbhVal = gbhVal & ((int)pow(2,n) - 1); } 
         else { 
-            n = n & ((int)pow(2,n-1) - 1); }
+            gbhVal = gbhVal & ((int)pow(2,n-1) - 1); }
     }
     
     //print result and return (in)correct
