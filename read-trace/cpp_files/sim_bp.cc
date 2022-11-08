@@ -179,10 +179,10 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
         validIndex = validIndex & (int)(pow(2,m) - 1);
         
         //boittomValidIndex = 000000[m-n bits]
-        int bottomValidIndex = validIndex & (int)(pow(2,(m-n) - 1);
+        int bottomValidIndex = validIndex & (int)(pow(2,(m-n)) - 1);
         
         //xorIndex = [n bits]00000                                
-        int xorIndex = validIndex & ((pow(2,n) - 1) << (m-n));
+        int xorIndex = validIndex & ((int)(pow(2,n) - 1) << (m-n));
         xorIndex = xorIndex ^ n;
         validIndex = xorIndex | bottomValidIndex;
     }
