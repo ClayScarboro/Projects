@@ -122,7 +122,7 @@ int main (int argc, char* argv[])
         ++numPredictions;
         if(!mainBP.makePrediction(addr,outcome)) ++numMispredictions;
     }
-    
+    printf("OUTPUT\n");
     predRate = ((float)numMispredictions / numPredictions) * 100;
     printf("number of predictions:  %d\n",numPredictions);
     printf("number of mispredictions:  %d\n",numMispredictions);
@@ -134,6 +134,16 @@ int main (int argc, char* argv[])
 }
         
 void branchPredictor::printContents(){
+    //FINAL XXXXXX CONTENTS
+    printf("FINAL")
+    if(n > 0){
+        printf(" GSHARE "); }   
+    else 
+        printf(" BIMODAL "); }   
+    printf("CONTENTS\n");
+        
+    
+    //PRINTING ALL
     for(int i = 0; i < size; i++){
         printf("%d  %d\n",i,storage[i].val);   
     }
