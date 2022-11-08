@@ -228,7 +228,7 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
     if(n > 0){
         gbhVal = gbhVal >> 1;
         if(outcome == 't'){ 
-            gbhVal = gbhVal | (int)(pow(2,n) >> 1);
+            gbhVal = gbhVal | ((int)(pow(2,n)) >> 1);
     }
     
     //print result and return (in)correct
