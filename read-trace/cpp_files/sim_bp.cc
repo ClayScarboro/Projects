@@ -106,6 +106,7 @@ int main (int argc, char* argv[])
     }
     
     branchPredictor mainBP(mUse,nUse);
+    printf("Success1\n");
     
     char str[2];
     while(fscanf(FP, "%lx %s", &addr, str) != EOF)
