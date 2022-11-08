@@ -106,7 +106,6 @@ int main (int argc, char* argv[])
     }
     
     branchPredictor mainBP(mUse,nUse);
-    printf("Success1\n");
     
     char str[2];
     while(fscanf(FP, "%lx %s", &addr, str) != EOF)
@@ -121,7 +120,9 @@ int main (int argc, char* argv[])
         */
         // DOING SIMULATION!
         ++numPredictions;
+        printf("Success2\n");
         if(!mainBP.makePrediction(addr,outcome)) ++numMispredictions;
+        printf("Success3\n");
     }
     printf("OUTPUT\n");
     predRate = ((float)numMispredictions / numPredictions) * 100;
