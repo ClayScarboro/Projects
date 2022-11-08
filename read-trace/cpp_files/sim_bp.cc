@@ -181,6 +181,8 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
         validIndex = (n << nBits) ^ validIndex;
     }
     
+    printf("Got Index %d\n",validIndex);
+    
     //now that we have index, make prediction
     //make adjustment on outcome
     if(storage[validIndex].val >= 2){
