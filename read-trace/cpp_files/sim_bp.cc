@@ -205,7 +205,7 @@ int branchPredictor::makePrediction(unsigned long int addr,char outcome){
     
     //If GShare, update GBHR
     if(n > 0){
-        n = << 1;
+        n = n << 1;
         if(outcome == 't'){ 
             n = n & ((int)pow(2,n) - 1); } 
         else { 
